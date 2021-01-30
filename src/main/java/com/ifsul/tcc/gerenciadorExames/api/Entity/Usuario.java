@@ -14,9 +14,6 @@ import java.util.List;
 
 @Entity
 @Inheritance( strategy = InheritanceType.JOINED)
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Usuario implements UserDetails {
     @Id
     @SequenceGenerator(name = "USUARIO_SEQ", sequenceName = "USUARIO_SEQ")
