@@ -1,0 +1,52 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active: prod
+
+---
+
+spring:
+  profiles: prod
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+logging:
+  file:
+    name: logs/api.log
+  pattern:
+    file: "%d %-5level [%thread] %logger{0} : %msg%n"
+  level:
+    org.springframework.web: WARN
+    br.com.dbccompany.vemser.Controller: ERROR
+    org.hibernate: WARN
+
+---
+
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    plataform: h2
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+    h2:
+      console:
+        enabled: true
+        path: /console
