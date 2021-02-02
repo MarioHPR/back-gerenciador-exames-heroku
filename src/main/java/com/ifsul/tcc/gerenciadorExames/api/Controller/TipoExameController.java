@@ -1,7 +1,7 @@
 package com.ifsul.tcc.gerenciadorExames.api.Controller;
 
 import com.ifsul.tcc.gerenciadorExames.api.ApiApplication;
-import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosTipoExameTestRequest;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosTipoExameRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosTipoExameResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.TipoExameDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Service.TipoExameService;
@@ -26,7 +26,7 @@ public class TipoExameController {
 
     @PostMapping(value = "/salvar-resumo/")
     @ResponseBody
-    public ResponseEntity<String> salvarTipoExameResumo(@RequestBody DadosTipoExameTestRequest tipoExameDTO ) {
+    public ResponseEntity<String> salvarTipoExameResumo(@RequestBody DadosTipoExameRequest tipoExameDTO ) {
         logger.info(LocalDate.now().toString());
         try {
             tipoExameService.salvar(tipoExameDTO);

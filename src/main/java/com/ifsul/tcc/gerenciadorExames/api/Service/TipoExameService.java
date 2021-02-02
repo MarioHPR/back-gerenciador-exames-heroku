@@ -1,7 +1,7 @@
 package com.ifsul.tcc.gerenciadorExames.api.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosTipoExameTestRequest;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosTipoExameRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosTipoExameResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.*;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.*;
@@ -53,7 +53,7 @@ public class TipoExameService {
     }
 
     @Transactional( rollbackFor = Exception.class )
-    public TipoExameDTO salvar(DadosTipoExameTestRequest dadosTipoExameRequest) throws Exception {
+    public TipoExameDTO salvar(DadosTipoExameRequest dadosTipoExameRequest) throws Exception {
         String email = getEmail();
         Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
 

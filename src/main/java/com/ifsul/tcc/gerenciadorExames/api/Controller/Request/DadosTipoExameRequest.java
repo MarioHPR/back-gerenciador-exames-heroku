@@ -9,20 +9,21 @@ public class DadosTipoExameRequest {
     private String nomeExame;
     private Long idArquivo;
     private LocalDate dataExame;
-    private Integer idInstituicao;
 
     private List<String> campo;
     private List<String> valor;
 
+    private DadosInstituicaoRequest dadosInstituicao;
+
     public DadosTipoExameRequest() {}
 
-    public DadosTipoExameRequest(String nomeExame, Long idArquivo, LocalDate dataExame, Integer idInstituicao, List<String> campo, List<String> valor) {
+    public DadosTipoExameRequest(String nomeExame, Long idArquivo, LocalDate dataExame, List<String> campo, List<String> valor, DadosInstituicaoRequest dadosInstituicao) {
         this.nomeExame = nomeExame;
         this.idArquivo = idArquivo;
         this.dataExame = dataExame;
-        this.idInstituicao = idInstituicao;
         this.campo = campo;
         this.valor = valor;
+        this.dadosInstituicao = dadosInstituicao;
     }
 
     public String getNomeExame() {
@@ -49,14 +50,6 @@ public class DadosTipoExameRequest {
         this.dataExame = dataExame;
     }
 
-    public Integer getIdInstituicao() {
-        return idInstituicao;
-    }
-
-    public void setIdInstituicao(Integer idInstituicao) {
-        this.idInstituicao = idInstituicao;
-    }
-
     public List<String> getCampo() {
         return campo;
     }
@@ -71,5 +64,13 @@ public class DadosTipoExameRequest {
 
     public void setValor(List<String> valor) {
         this.valor = valor;
+    }
+
+    public DadosInstituicaoRequest getDadosInstituicao() {
+        return dadosInstituicao;
+    }
+
+    public void setDadosInstituicao(DadosInstituicaoRequest dadosInstituicao) {
+        this.dadosInstituicao = dadosInstituicao;
     }
 }
