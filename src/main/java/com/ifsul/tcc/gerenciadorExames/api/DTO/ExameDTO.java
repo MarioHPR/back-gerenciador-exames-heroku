@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public class ExameDTO {
 
     private Integer id;
-    private String linkImage;
+    private Long idArquivo;
     private LocalDate dataExame;
     private Integer idTipoExame;
     private Integer idInstituicao;
@@ -16,9 +16,9 @@ public class ExameDTO {
 
     public ExameDTO() {}
 
-    public ExameDTO(Integer id, String linkImage, Integer idUsuario, Integer idInstituicao, Integer idTipoExame, LocalDate dataExame) {
+    public ExameDTO(Integer id, Long idArquivo, Integer idUsuario, Integer idInstituicao, Integer idTipoExame, LocalDate dataExame) {
         this.id = id;
-        this.linkImage = linkImage;
+        this.idArquivo = idArquivo;
         this.idUsuario = idUsuario;
         this.idInstituicao = idInstituicao;
         this.idTipoExame = idTipoExame;
@@ -27,7 +27,7 @@ public class ExameDTO {
 
     public ExameDTO(Exame exame) {
         this.id = exame.getId();
-        this.linkImage = exame.getLinkImage();
+        this.idArquivo = exame.getIdArquivo();
         this.idUsuario = exame.getUsuario().getId();
         this.idInstituicao = exame.getInstituicao().getId();
         this.idTipoExame = exame.getTipoExame().getId();
@@ -43,12 +43,12 @@ public class ExameDTO {
         this.id = id;
     }
 
-    public String getLinkImage() {
-        return linkImage;
+    public Long getIdArquivo() {
+        return idArquivo;
     }
 
-    public void setLinkImage(String linkImage) {
-        this.linkImage = linkImage;
+    public void setIdArquivo(Long idArquivo) {
+        this.idArquivo = idArquivo;
     }
 
     public Integer getIdInstituicao() {

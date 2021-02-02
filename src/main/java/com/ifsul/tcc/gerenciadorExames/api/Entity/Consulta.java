@@ -29,7 +29,7 @@ public class Consulta {
     @Column(nullable = false)
     private String nomeMedico;
 
-    private String linkImage;
+    private Long idArquivo;
 
     @Column(nullable = false)
     private LocalDate dataConsulta;
@@ -42,11 +42,11 @@ public class Consulta {
 
     public Consulta() {}
 
-    public Consulta(String diagnostico, String prescricao, String nomeMedico, String linkImage, LocalDate dataConsulta) {
+    public Consulta(String diagnostico, String prescricao, String nomeMedico, Long idArquivo, LocalDate dataConsulta) {
         this.diagnostico = diagnostico;
         this.prescricao = prescricao;
         this.nomeMedico = nomeMedico;
-        this.linkImage = linkImage;
+        this.idArquivo = idArquivo;
         this.dataConsulta = dataConsulta;
     }
 
@@ -54,7 +54,7 @@ public class Consulta {
         this.diagnostico = consultaDTO.getDiagnostico();
         this.prescricao = consultaDTO.getPrescricao();
         this.nomeMedico = consultaDTO.getNomeMedico();
-        this.linkImage = consultaDTO.getLinkImage();
+        this.idArquivo = consultaDTO.getIdArquivo();
         this.dataConsulta = consultaDTO.getDataConsulta();
     }
 
@@ -62,7 +62,7 @@ public class Consulta {
         this.diagnostico = dados.getDiagnostico();
         this.prescricao = dados.getPrescricao();
         this.nomeMedico = dados.getNomeMedico();
-        this.linkImage = dados.getLinkImage();
+        this.idArquivo = dados.getIdArquivo();
         this.dataConsulta = dados.getDataConsulta();
     }
 
@@ -98,12 +98,12 @@ public class Consulta {
         this.nomeMedico = nomeMedico;
     }
 
-    public String getLinkImage() {
-        return linkImage;
+    public Long getIdArquivo() {
+        return idArquivo;
     }
 
-    public void setLinkImage(String linkImage) {
-        this.linkImage = linkImage;
+    public void setIdArquivo(Long idArquivo) {
+        this.idArquivo = idArquivo;
     }
 
     public LocalDate getDataConsulta() {

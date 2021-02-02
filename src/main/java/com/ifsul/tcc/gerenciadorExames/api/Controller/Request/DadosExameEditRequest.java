@@ -9,16 +9,16 @@ public class DadosExameEditRequest {
 
     private String tipoExame;
     private LocalDate dataExame;
-    private String linkImage;
+    private Long idArquivo;
     private DadosInstituicaoRequest dadosInstituicao;
     private List<ItemValorExameDTO> parametros;
 
     public DadosExameEditRequest() {}
 
-    public DadosExameEditRequest(String tipoExame, LocalDate dataExame, String linkImage, DadosInstituicaoRequest dadosInstituicao, List<ItemValorExameDTO> parametros) {
+    public DadosExameEditRequest(String tipoExame, LocalDate dataExame, Long idArquivo, DadosInstituicaoRequest dadosInstituicao, List<ItemValorExameDTO> parametros) {
         this.tipoExame = tipoExame;
         this.dataExame = dataExame;
-        this.linkImage = linkImage;
+        this.idArquivo = idArquivo;
         this.dadosInstituicao = dadosInstituicao;
         this.parametros = parametros;
     }
@@ -39,12 +39,12 @@ public class DadosExameEditRequest {
         this.dataExame = dataExame;
     }
 
-    public String getLinkImage() {
-        return linkImage;
+    public Long getIdArquivo() {
+        return idArquivo;
     }
 
-    public void setLinkImage(String linkImage) {
-        this.linkImage = linkImage;
+    public void setIdArquivo(Long idArquivo) {
+        this.idArquivo = idArquivo;
     }
 
     public DadosInstituicaoRequest getDadosInstituicao() {

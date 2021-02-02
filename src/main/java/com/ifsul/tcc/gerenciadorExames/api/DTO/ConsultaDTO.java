@@ -10,18 +10,18 @@ public class ConsultaDTO {
     private String diagnostico;
     private String prescricao;
     private String nomeMedico;
-    private String linkImage;
+    private Long idArquivo;
     private Integer idInstituicao;
     private LocalDate dataConsulta;
 
     public ConsultaDTO() {}
 
-    public ConsultaDTO(Integer id, String diagnostico, String prescricao, String nomeMedico, String linkImage, LocalDate dataConsulta, Integer idInstituicao) {
+    public ConsultaDTO(Integer id, String diagnostico, String prescricao, String nomeMedico, Long idArquivo, LocalDate dataConsulta, Integer idInstituicao) {
         this.id = id;
         this.diagnostico = diagnostico;
         this.prescricao = prescricao;
         this.nomeMedico = nomeMedico;
-        this.linkImage = linkImage;
+        this.idArquivo = idArquivo;
         this.dataConsulta = dataConsulta;
         this.idInstituicao = idInstituicao;
     }
@@ -31,7 +31,7 @@ public class ConsultaDTO {
         this.diagnostico = consulta.getDiagnostico();
         this.prescricao = consulta.getPrescricao();
         this.nomeMedico = consulta.getNomeMedico();
-        this.linkImage = consulta.getLinkImage();
+        this.idArquivo = consulta.getIdArquivo();
         this.dataConsulta = consulta.getDataConsulta();
         this.idInstituicao = consulta.getInstituicao().getId();
     }
@@ -68,12 +68,12 @@ public class ConsultaDTO {
         this.nomeMedico = nomeMedico;
     }
 
-    public String getLinkImage() {
-        return linkImage;
+    public Long getIdArquivo() {
+        return idArquivo;
     }
 
-    public void setLinkImage(String linkImage) {
-        this.linkImage = linkImage;
+    public void setIdArquivo(Long idArquivo) {
+        this.idArquivo = idArquivo;
     }
 
     public LocalDate getDataConsulta() {

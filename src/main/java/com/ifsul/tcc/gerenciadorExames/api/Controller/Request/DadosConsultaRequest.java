@@ -10,17 +10,17 @@ public class DadosConsultaRequest {
     private LocalDate dataConsulta;
     private String diagnostico;
     private String prescricao;
-    private String linkImage;
+    private Long idArquivo;
     private DadosInstituicaoRequest dadosInstituicao;
 
     public DadosConsultaRequest() {}
 
-    public DadosConsultaRequest(String nomeMedico, LocalDate dataConsulta, String diagnostico, String prescricao, String linkImage, DadosInstituicaoRequest dadosInstituicao) {
+    public DadosConsultaRequest(String nomeMedico, LocalDate dataConsulta, String diagnostico, String prescricao, Long idArquivo, DadosInstituicaoRequest dadosInstituicao) {
         this.nomeMedico = nomeMedico;
         this.dataConsulta = dataConsulta;
         this.diagnostico = diagnostico;
         this.prescricao = prescricao;
-        this.linkImage = linkImage;
+        this.idArquivo = idArquivo;
         this.dadosInstituicao = dadosInstituicao;
     }
 
@@ -29,7 +29,7 @@ public class DadosConsultaRequest {
         this.dataConsulta = consulta.getDataConsulta();
         this.diagnostico = consulta.getDiagnostico();
         this.prescricao = consulta.getPrescricao();
-        this.linkImage = consulta.getLinkImage();
+        this.idArquivo = consulta.getIdArquivo();
         this.dadosInstituicao = new DadosInstituicaoRequest(consulta.getInstituicao());
     }
 
@@ -65,12 +65,12 @@ public class DadosConsultaRequest {
         this.prescricao = prescricao;
     }
 
-    public String getLinkImage() {
-        return linkImage;
+    public Long getIdArquivo() {
+        return idArquivo;
     }
 
-    public void setLinkImage(String linkImage) {
-        this.linkImage = linkImage;
+    public void setIdArquivo(Long idArquivo) {
+        this.idArquivo = idArquivo;
     }
 
     public DadosInstituicaoRequest getDadosInstituicao() {

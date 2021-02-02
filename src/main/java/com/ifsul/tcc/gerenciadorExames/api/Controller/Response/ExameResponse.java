@@ -11,7 +11,7 @@ public class ExameResponse {
 
     private Integer id;
     private String nomeExame;
-    private String linkImage;
+    private Long idArquivo;
     private LocalDate dataExame;
     private DadosInstituicaoRequest dadosInstituicao;
     private List<ItemValorExameDTO> parametros;
@@ -19,10 +19,10 @@ public class ExameResponse {
 
     public ExameResponse() {}
 
-    public ExameResponse(Integer id, String nomeExame, String linkImage, LocalDate dataExame, DadosInstituicaoRequest dadosInstituicao, List<ItemValorExameDTO> parametros) {
+    public ExameResponse(Integer id, String nomeExame, Long idArquivo, LocalDate dataExame, DadosInstituicaoRequest dadosInstituicao, List<ItemValorExameDTO> parametros) {
         this.id = id;
         this.nomeExame = nomeExame;
-        this.linkImage = linkImage;
+        this.idArquivo = idArquivo;
         this.dataExame = dataExame;
         this.dadosInstituicao = dadosInstituicao;
         this.parametros = parametros;
@@ -31,7 +31,7 @@ public class ExameResponse {
     public ExameResponse(Exame exame) {
         this.id = exame.getId();
         this.nomeExame = exame.getTipoExame().getNomeExame();
-        this.linkImage = exame.getLinkImage();
+        this.idArquivo = exame.getIdArquivo();
         this.dataExame = exame.getDataExame();
         this.dadosInstituicao = new DadosInstituicaoRequest(exame.getInstituicao());
         this.flgDeleted = exame.getFlgDeleted();
@@ -53,12 +53,12 @@ public class ExameResponse {
         this.nomeExame = nomeExame;
     }
 
-    public String getLinkImage() {
-        return linkImage;
+    public Long getIdArquivo() {
+        return idArquivo;
     }
 
-    public void setLinkImage(String linkImage) {
-        this.linkImage = linkImage;
+    public void setIdArquivo(Long idArquivo) {
+        this.idArquivo = idArquivo;
     }
 
     public LocalDate getDataExame() {

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DadosExameRequest {
 
-    private String linkImage;
+    private Long idArquivo;
     private LocalDate dataExame;
     private Integer idTipoExame;
     private Integer idInstituicao;
@@ -15,14 +15,14 @@ public class DadosExameRequest {
 
     public DadosExameRequest() {}
 
-    public DadosExameRequest(String linkImage, LocalDate dataExame, Integer idTipoExame, Integer idInstituicao) {
-        this.linkImage = linkImage;
+    public DadosExameRequest(Long idArquivo, LocalDate dataExame, Integer idTipoExame, Integer idInstituicao) {
+        this.idArquivo = idArquivo;
         this.dataExame = dataExame;
         this.idTipoExame = idTipoExame;
         this.idInstituicao = idInstituicao;
     }
-    public DadosExameRequest(String linkImage, LocalDate dataExame, Integer idTipoExame, Integer idInstituicao, List<String> campo, List<String> valor) {
-        this.linkImage = linkImage;
+    public DadosExameRequest(Long idArquivo, LocalDate dataExame, Integer idTipoExame, Integer idInstituicao, List<String> campo, List<String> valor) {
+        this.idArquivo = idArquivo;
         this.dataExame = dataExame;
         this.idTipoExame = idTipoExame;
         this.idInstituicao = idInstituicao;
@@ -30,12 +30,12 @@ public class DadosExameRequest {
         this.valor = valor;
     }
 
-    public String getLinkImage() {
-        return linkImage;
+    public Long getIdArquivo() {
+        return idArquivo;
     }
 
-    public void setLinkImage(String linkImage) {
-        this.linkImage = linkImage;
+    public void setIdArquivo(Long idArquivo) {
+        this.idArquivo = idArquivo;
     }
 
     public LocalDate getDataExame() {

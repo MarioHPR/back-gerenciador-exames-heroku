@@ -30,7 +30,7 @@ public class DadosConsultaResponse {
         this.dataConsulta = consulta.getDataConsulta();
         this.diagnostico = consulta.getDiagnostico();
         this.prescricao = consulta.getPrescricao();
-        this.linkImage = consulta.getLinkImage();
+        this.linkImage = consulta.getIdArquivo();
         this.dadosInstituicao = new DadosInstituicaoRequest(consulta.getInstituicao());
     }
 

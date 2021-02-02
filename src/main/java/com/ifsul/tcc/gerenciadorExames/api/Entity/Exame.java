@@ -22,7 +22,7 @@ public class Exame {
     @GeneratedValue(generator = "EXAME_SEQ", strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    private String linkImage;
+    private Long idArquivo;
 
     private Boolean flgDeleted;
 
@@ -50,25 +50,25 @@ public class Exame {
 
     public Exame() {}
 
-    public Exame(String linkImage, LocalDate dataExame) {
-        this.linkImage = linkImage;
+    public Exame(Long idArquivo, LocalDate dataExame) {
+        this.idArquivo = idArquivo;
         this.dataExame = dataExame;
     }
 
     public Exame(ExameResponse exameResponse) {
         this.id = exameResponse.getId();
-        this.linkImage = exameResponse.getLinkImage();
+        this.idArquivo = exameResponse.getIdArquivo();
         this.dataExame = exameResponse.getDataExame();
     }
 
     public Exame(ExameDTO exameDTO) {
         this.id = exameDTO.getId();
-        this.linkImage = exameDTO.getLinkImage();
+        this.idArquivo = exameDTO.getIdArquivo();
         this.dataExame = exameDTO.getDataExame();
     }
 
     public Exame(DadosExameRequest dadosExameRequest) {
-        this.linkImage = dadosExameRequest.getLinkImage();
+        this.idArquivo = dadosExameRequest.getIdArquivo();
         this.dataExame = dadosExameRequest.getDataExame();
     }
 
@@ -80,12 +80,12 @@ public class Exame {
         this.id = id;
     }
 
-    public String getLinkImage() {
-        return linkImage;
+    public Long getIdArquivo() {
+        return idArquivo;
     }
 
-    public void setLinkImage(String linkImage) {
-        this.linkImage = linkImage;
+    public void setIdArquivo(Long idArquivo) {
+        this.idArquivo = idArquivo;
     }
 
     public LocalDate getDataExame() {

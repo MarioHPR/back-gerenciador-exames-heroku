@@ -7,7 +7,7 @@ import java.util.List;
 public class DadosTipoExameRequest {
 
     private String nomeExame;
-    private String linkImage;
+    private Long idArquivo;
     private LocalDate dataExame;
     private Integer idInstituicao;
 
@@ -16,9 +16,9 @@ public class DadosTipoExameRequest {
 
     public DadosTipoExameRequest() {}
 
-    public DadosTipoExameRequest(String nomeExame, String linkImage, LocalDate dataExame, Integer idInstituicao, List<String> campo, List<String> valor) {
+    public DadosTipoExameRequest(String nomeExame, Long idArquivo, LocalDate dataExame, Integer idInstituicao, List<String> campo, List<String> valor) {
         this.nomeExame = nomeExame;
-        this.linkImage = linkImage;
+        this.idArquivo = idArquivo;
         this.dataExame = dataExame;
         this.idInstituicao = idInstituicao;
         this.campo = campo;
@@ -33,12 +33,12 @@ public class DadosTipoExameRequest {
         this.nomeExame = nomeExame;
     }
 
-    public String getLinkImage() {
-        return linkImage;
+    public Long getIdArquivo() {
+        return idArquivo;
     }
 
-    public void setLinkImage(String linkImage) {
-        this.linkImage = linkImage;
+    public void setIdArquivo(Long idArquivo) {
+        this.idArquivo = idArquivo;
     }
 
     public LocalDate getDataExame() {
