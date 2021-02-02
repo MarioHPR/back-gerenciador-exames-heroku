@@ -15,7 +15,7 @@ public class Endereco {
     @Column(nullable = false)
     private String cidade;
 
-    @Column(length = 8, columnDefinition = "CHAR", nullable = false)
+    @Column(nullable = false)
     private String cep;
 
     @Column(nullable = false)
