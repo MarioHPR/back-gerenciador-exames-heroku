@@ -26,6 +26,13 @@ public class ArquivoController {
     public String uploadMultipartFile(@RequestParam("upload") MultipartFile file) {
         try {
             // save file to PostgreSQL
+            System.out.println("****************************");
+            System.out.println("////////////////////////////");
+            System.out.println(file.getOriginalFilename());
+            System.out.println(file.getContentType());
+            System.out.println(file.getBytes());
+            System.out.println("****************************");
+            System.out.println("////////////////////////////");
             Arquivo filemode = new Arquivo(file.getOriginalFilename(), file.getContentType(), file.getBytes());
             arquivoRepository.save(filemode);
             return "File uploaded successfully! -> filename = " + file.getOriginalFilename();
