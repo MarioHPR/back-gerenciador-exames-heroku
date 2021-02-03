@@ -21,7 +21,7 @@ public class ArquivoController {
     /*
      * MultipartFile Upload
      */
-    @PostMapping("/api/file/upload")
+    @PostMapping("/upload")
     @ResponseBody
     public String uploadMultipartFile(@RequestParam("upload") MultipartFile file) {
         try {
@@ -41,7 +41,7 @@ public class ArquivoController {
         }
     }
 
-    @GetMapping("/api/file/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
         Optional<Arquivo> fileOptional = arquivoRepository.findById(id);
 
