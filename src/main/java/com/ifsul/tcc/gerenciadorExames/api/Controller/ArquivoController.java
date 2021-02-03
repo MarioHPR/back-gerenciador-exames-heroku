@@ -31,7 +31,7 @@ public class ArquivoController {
             System.out.println(file.getOriginalFilename());
             System.out.println(file.getContentType());
             System.out.println(file.getBytes());
-            System.out.println("****************************");
+            System.out.println("*********************** *****");
             System.out.println("////////////////////////////");
             Arquivo filemode = new Arquivo(file.getOriginalFilename(), file.getContentType(), file.getBytes());
             arquivoRepository.save(filemode);
