@@ -23,21 +23,14 @@ public class ArquivoController {
      */
     @PostMapping("/upload")
     @ResponseBody
-    public String uploadMultipartFile(@RequestParam("upload") MultipartFile file) {
+    public ResponseEntity<Long> uploadMultipartFile(@RequestParam("upload") MultipartFile file) {
         try {
             // save file to PostgreSQL
-            System.out.println("****************************");
-            System.out.println("////////////////////////////");
-            System.out.println(file.getOriginalFilename());
-            System.out.println(file.getContentType());
-            System.out.println(file.getBytes());
-            System.out.println("*********************** *****");
-            System.out.println("////////////////////////////");
             Arquivo filemode = new Arquivo(file.getOriginalFilename(), file.getContentType(), file.getBytes());
-            arquivoRepository.save(filemode);
-            return "File uploaded successfully! -> filename = " + file.getOriginalFilename();
-        } catch (  Exception e) {
-            return "FAIL! Maybe You had uploaded the file before or the file's size > 500KB";
+            Arquivo arquivoResponse = arquivoRepository.save(filemode);
+            return ResponseEntity.ok().body(arquivoResponse.getId());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 
