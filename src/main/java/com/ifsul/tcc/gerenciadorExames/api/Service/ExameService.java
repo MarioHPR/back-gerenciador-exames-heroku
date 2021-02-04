@@ -154,7 +154,7 @@ public class ExameService {
             exame.get().setDataExame(dadosExameRequest.getDataExame());
             exame.get().setTipoExame(tipoExame.get());
             exame.get().setInstituicao(instituicao);
-
+            exame.get().setIdArquivo(dadosExameRequest.getIdArquivo());
             for (int i = 0 ; i < dadosExameRequest.getParametros().size() ; i++ ) {
                 if(dadosExameRequest.getParametros().get(i).getCampo() != "") {
                     Integer idCampo = dadosExameRequest.getParametros().get(i).getIdItemCampoExame();
