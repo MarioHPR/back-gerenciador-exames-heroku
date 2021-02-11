@@ -22,6 +22,8 @@ public class Contato {
     @Column(nullable = false)
     private String contatoDois;
 
+    private Boolean flgContatoUsuario;
+
     @ManyToOne
     private Usuario usuario;
 
@@ -35,6 +37,7 @@ public class Contato {
     public Contato(ContatoDTO contatoDTO) {
         this.contatoUm = contatoDTO.getContatoUm();
         this.contatoDois = contatoDTO.getContatoDois();
+        this.flgContatoUsuario = contatoDTO.getFlgContatoUsuario();
     }
 
     public Integer getId() {
@@ -67,5 +70,13 @@ public class Contato {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Boolean getFlgContatoUsuario() {
+        return flgContatoUsuario;
+    }
+
+    public void setFlgContatoUsuario(Boolean flgContatoUsuario) {
+        this.flgContatoUsuario = flgContatoUsuario;
     }
 }

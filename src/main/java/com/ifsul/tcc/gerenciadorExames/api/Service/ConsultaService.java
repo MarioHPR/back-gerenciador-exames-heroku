@@ -53,8 +53,9 @@ public class ConsultaService {
             instituicao = instituicaoOptional.get();
         } else {
             EnderecoDTO enderecoDTO = dadosConsulta.getDadosInstituicao().getEnderecoDTO();
+            enderecoDTO.setFlgEnderecoDoUsuario(Boolean.FALSE);
             ContatoDTO contatoDTO = dadosConsulta.getDadosInstituicao().getContatoDTO();
-
+            contatoDTO.setFlgContatoUsuario(Boolean.FALSE);
             EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
             ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
 

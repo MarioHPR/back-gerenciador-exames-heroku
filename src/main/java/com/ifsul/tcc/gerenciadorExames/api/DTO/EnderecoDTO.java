@@ -10,7 +10,7 @@ public class EnderecoDTO {
     private String bairro;
     private String rua;
     private int numero;
-    private String email;
+    private Boolean flgEnderecoDoUsuario;
 
     public EnderecoDTO() {}
 
@@ -22,6 +22,15 @@ public class EnderecoDTO {
         this.numero = numero;
     }
 
+    public EnderecoDTO(String cidade, String cep, String bairro, String rua, int numero, Boolean flgEnderecoDoUsuario) {
+        this.cidade = cidade;
+        this.cep = cep;
+        this.bairro = bairro;
+        this.rua = rua;
+        this.numero = numero;
+        this.flgEnderecoDoUsuario = flgEnderecoDoUsuario;
+    }
+
     public EnderecoDTO(Endereco endereco) {
         this.id = endereco.getId();
         this.cidade = endereco.getCidade();
@@ -29,6 +38,7 @@ public class EnderecoDTO {
         this.bairro = endereco.getBairro();
         this.rua = endereco.getRua();
         this.numero = endereco.getNumero();
+        this.flgEnderecoDoUsuario = endereco.getFlgEnderecoDoUsuario();
     }
 
     public Integer getId() {
@@ -79,11 +89,11 @@ public class EnderecoDTO {
         this.numero = numero;
     }
 
-    public String getEmeail() {
-        return email;
+    public Boolean getFlgEnderecoDoUsuario() {
+        return flgEnderecoDoUsuario;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFlgEnderecoDoUsuario(Boolean flgEnderecoDoUsuario) {
+        this.flgEnderecoDoUsuario = flgEnderecoDoUsuario;
     }
 }

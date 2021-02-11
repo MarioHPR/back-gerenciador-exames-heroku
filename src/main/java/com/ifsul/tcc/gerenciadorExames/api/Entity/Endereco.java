@@ -27,6 +27,8 @@ public class Endereco {
     @Column(nullable = false)
     private int numero;
 
+    private Boolean flgEnderecoDoUsuario = Boolean.FALSE;
+
     // chaves estrangeiras
     @OneToOne
     private Usuario usuario;
@@ -47,6 +49,7 @@ public class Endereco {
         this.bairro = enderecoDTO.getBairro();
         this.rua = enderecoDTO.getRua();
         this.numero = enderecoDTO.getNumero();
+        this.flgEnderecoDoUsuario = enderecoDTO.getFlgEnderecoDoUsuario();
     }
 
     public Integer getId() {
@@ -103,5 +106,13 @@ public class Endereco {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Boolean getFlgEnderecoDoUsuario() {
+        return flgEnderecoDoUsuario;
+    }
+
+    public void setFlgEnderecoDoUsuario(Boolean flgEnderecoDoUsuario) {
+        this.flgEnderecoDoUsuario = flgEnderecoDoUsuario;
     }
 }

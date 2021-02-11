@@ -1,6 +1,7 @@
 package com.ifsul.tcc.gerenciadorExames.api.Controller;
 
 import com.ifsul.tcc.gerenciadorExames.api.ApiApplication;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosUsuarioRequest;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.UsuarioDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Service.UsuarioService;
 import org.slf4j.Logger;
@@ -20,9 +21,9 @@ public class UsuarioController {
 
     @PostMapping(value = "/salvar")
     @ResponseBody
-    public ResponseEntity<String> adicionarUsuario(@RequestBody UsuarioDTO usuarioDTO  ) {
+    public ResponseEntity<String> adicionarUsuario(@RequestBody DadosUsuarioRequest dadosUsuario  ) {
         try{
-            usuarioService.adicionarUsuario(usuarioDTO);
+            usuarioService.adicionarUsuario(dadosUsuario);
             return ResponseEntity.ok().build();
         }catch(Exception e){
             logger.error("Erro ao salvar usuario: " + e.getMessage());

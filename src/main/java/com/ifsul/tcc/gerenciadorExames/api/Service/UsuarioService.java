@@ -1,5 +1,8 @@
 package com.ifsul.tcc.gerenciadorExames.api.Service;
 
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosUsuarioRequest;
+import com.ifsul.tcc.gerenciadorExames.api.DTO.ContatoDTO;
+import com.ifsul.tcc.gerenciadorExames.api.DTO.EnderecoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.UsuarioDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.Usuario;
 import com.ifsul.tcc.gerenciadorExames.api.Repository.UsuarioRepository;
@@ -19,14 +22,19 @@ public class UsuarioService {
     private final String emailMatcher = "@gmail.com";
 
     @Transactional
-    public UsuarioDTO adicionarUsuario(UsuarioDTO usuarioDTO ) throws Exception {
-
-        if ( validaTamanhoDaSenha(usuarioDTO) ) {
-
-            if ( usuarioDTO.getEmail().contains(emailMatcher) ) {
-                Usuario usuario = new Usuario(usuarioDTO);
+    public UsuarioDTO adicionarUsuario(DadosUsuarioRequest dadosUsuario) throws Exception {
+        if ( validaTamanhoDaSenha(dadosUsuario) ) {
+            if ( dadosUsuario.getEmail().contains(emailMatcher) ) {
+                Usuario usuario = new Usuario(dadosUsuario);
                 usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getPassword()));
-                return new UsuarioDTO(repository.save(usuario));
+                Usuario response = repository.save(usuario);
+                ContatoDTO cont = dadosUsuario.retornarContatoDTO().setFlgContatoUsuario(Boolean.TRUE);
+                cont.setFlgContatoUsuario(Boolean.TRUE);
+                EnderecoDTO end = dadosUsuario.retornarEnderecoDTO();
+                end.setFlgEnderecoDoUsuario(Boolean.TRUE);
+                contatoService.salvar(cont, response.getEmail());
+                enderecoService.salvar(end, response.getEmail());
+                return response;
             }
         }
         throw new Exception();
