@@ -21,7 +21,7 @@ public class UsuarioController {
 
     @PostMapping(value = "/salvar")
     @ResponseBody
-    public ResponseEntity<String> adicionarUsuario(@RequestBody DadosUsuarioRequest dadosUsuario  ) {
+    public ResponseEntity<Void> adicionarUsuario(@RequestBody DadosUsuarioRequest dadosUsuario  ) {
         try{
             usuarioService.adicionarUsuario(dadosUsuario);
             return ResponseEntity.ok().build();

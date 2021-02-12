@@ -2,6 +2,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosUsuarioRequest;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.UsuarioDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -75,6 +76,15 @@ public class Usuario implements UserDetails {
         this.dataNascimento = usuarioDTO.getDataNascimento();
         this.email = usuarioDTO.getEmail();
         this.senha = usuarioDTO.getSenha();
+    }
+
+    public Usuario(DadosUsuarioRequest dadosUsuario) {
+        this.id = dadosUsuario.getId();
+        this.nome = dadosUsuario.getNome();
+        this.cpf = dadosUsuario.getCpf();
+        this.dataNascimento = dadosUsuario.getDataNascimento();
+        this.email = dadosUsuario.getEmail();
+        this.senha = dadosUsuario.getSenha();
     }
 
     public Integer getId() {

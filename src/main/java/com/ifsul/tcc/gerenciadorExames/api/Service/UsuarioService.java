@@ -19,16 +19,22 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
 
+    @Autowired
+    private ContatoService contatoService;
+
+    @Autowired
+    private EnderecoService enderecoService;
+
     private final String emailMatcher = "@gmail.com";
 
     @Transactional
-    public UsuarioDTO adicionarUsuario(DadosUsuarioRequest dadosUsuario) throws Exception {
+    public Usuario adicionarUsuario(DadosUsuarioRequest dadosUsuario) throws Exception {
         if ( validaTamanhoDaSenha(dadosUsuario) ) {
             if ( dadosUsuario.getEmail().contains(emailMatcher) ) {
                 Usuario usuario = new Usuario(dadosUsuario);
                 usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getPassword()));
                 Usuario response = repository.save(usuario);
-                ContatoDTO cont = dadosUsuario.retornarContatoDTO().setFlgContatoUsuario(Boolean.TRUE);
+                ContatoDTO cont = dadosUsuario.retornarContatoDTO();
                 cont.setFlgContatoUsuario(Boolean.TRUE);
                 EnderecoDTO end = dadosUsuario.retornarEnderecoDTO();
                 end.setFlgEnderecoDoUsuario(Boolean.TRUE);
@@ -40,8 +46,8 @@ public class UsuarioService {
         throw new Exception();
     }
 
-    private boolean validaTamanhoDaSenha(UsuarioDTO usuarioDTO) {
-        return usuarioDTO.getSenha().length() >= 6 && usuarioDTO.getSenha().length() <= 12;
+    private boolean validaTamanhoDaSenha(DadosUsuarioRequest dadosUsuario) {
+        return dadosUsuario.getSenha().length() >= 6 && dadosUsuario.getSenha().length() <= 12;
     }
 
     @Transactional( rollbackFor = Exception.class )
