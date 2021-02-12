@@ -8,7 +8,16 @@ public class ContatoDTO {
     private String contatoDois;
     private Boolean flgContatoUsuario;
 
+    {
+        this.flgContatoUsuario = Boolean.FALSE;
+    }
+
     public ContatoDTO(){}
+
+    public ContatoDTO(String contatoUm, String contatoDois) {
+        this.contatoUm = contatoUm;
+        this.contatoDois = contatoDois;
+    }
 
     public ContatoDTO(String contatoUm, String contatoDois, Boolean flgContatoUsuario) {
         this.contatoUm = contatoUm;
