@@ -54,6 +54,10 @@ public class ContatoService  {
         throw new Exception();
     }
 
+    public ContatoDTO buscarContatoDoUsuario(Usuario usuario) throws Exception {
+        return contatoRepository.findByUsuarioAndFlgContatoUsuarioIsTrue(usuario);
+    }
+
     public String getEmail() {
         Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();

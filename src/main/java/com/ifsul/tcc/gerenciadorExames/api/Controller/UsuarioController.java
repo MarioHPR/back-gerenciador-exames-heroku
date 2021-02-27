@@ -2,6 +2,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Controller;
 
 import com.ifsul.tcc.gerenciadorExames.api.ApiApplication;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosUsuarioRequest;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosUsuarioResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.UsuarioDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Service.UsuarioService;
 import org.slf4j.Logger;
@@ -37,6 +38,17 @@ public class UsuarioController {
         try {
             usuarioService.alterarSenha( usuarioDTO.getEmail(), usuarioDTO.getSenha() );
             return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            logger.error("Erro: "+e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping(value = "/buscar-dados")
+    @ResponseBody
+    public ResponseEntity<DadosUsuarioResponse> buscarDados(){
+        try {
+            return ResponseEntity.ok().body(usuarioService.buscarDadosDoUsuario());
         } catch (Exception e) {
             logger.error("Erro: "+e.getMessage());
             return ResponseEntity.badRequest().build();

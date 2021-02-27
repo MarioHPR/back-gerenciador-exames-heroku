@@ -69,5 +69,7 @@ public class EnderecoService {
         Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();
     }
-
+    public EnderecoDTO buscarEnderecoDoUsuario(Usuario usuario) throws Exception {
+        return enderecoRepository.findByUsuarioAndFlgEnderecoDoUsuarioIsTrue(usuario);
+    }
 }

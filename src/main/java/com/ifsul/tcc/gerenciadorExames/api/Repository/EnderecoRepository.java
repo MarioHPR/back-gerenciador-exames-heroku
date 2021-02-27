@@ -1,5 +1,6 @@
 package com.ifsul.tcc.gerenciadorExames.api.Repository;
 
+import com.ifsul.tcc.gerenciadorExames.api.DTO.EnderecoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.Endereco;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.Usuario;
 import org.springframework.data.domain.Page;
@@ -15,4 +16,5 @@ public interface EnderecoRepository extends CrudRepository<Endereco, Integer> {
     List<Endereco> findByCidade( String cidade );
     Optional<Endereco> findByUsuario(Usuario usuario);
     Optional<Endereco> findByIdAndUsuario(Integer id, Usuario usuario);
+    EnderecoDTO findByUsuarioAndFlgEnderecoDoUsuarioIsTrue(Usuario usuario);
 }

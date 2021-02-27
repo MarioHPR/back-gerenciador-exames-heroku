@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface ContatoRepository extends CrudRepository<Contato,Integer> {
     List<ContatoDTO> findAllByUsuario(Usuario usuario);
     Optional<ContatoDTO> findByIdAndUsuario(Integer id, Usuario usuario);
+    ContatoDTO findByUsuarioAndFlgContatoUsuarioIsTrue(Usuario usuario);
 }
