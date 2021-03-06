@@ -75,10 +75,9 @@ public class UsuarioService {
         Optional<Usuario> usuario = repository.findByEmail(email);
 
         if (usuario.isPresent()) {
-            if ( validaTamanhoDaSenha(dadosUsuario) ) {
+            if ( dadosUsuario.getSenha().length() >= 6 ) {
                 if (dadosUsuario.getEmail().contains(emailMatcher)) {
                     Usuario newUsuario = new Usuario(dadosUsuario);
-                    newUsuario.setSenha( new BCryptPasswordEncoder().encode(dadosUsuario.getSenha()) );
                     newUsuario.setId(usuario.get().getId());
                     contatoService.editarContatoDoUsuario(dadosUsuario.retornarContatoDTO());
                     enderecoService.editarEnderecoDoUsuario(dadosUsuario.retornarEnderecoDTO());
