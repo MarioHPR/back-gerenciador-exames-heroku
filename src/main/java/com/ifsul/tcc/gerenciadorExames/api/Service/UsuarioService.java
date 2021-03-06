@@ -79,6 +79,9 @@ public class UsuarioService {
                 if (dadosUsuario.getEmail().contains(emailMatcher)) {
                     Usuario newUsuario = new Usuario(dadosUsuario);
                     newUsuario.setId(usuario.get().getId());
+                    if(dadosUsuario.getSenha().length() <= 12){
+                        newUsuario.setSenha(new BCryptPasswordEncoder().encode(dadosUsuario.getSenha()));
+                    }
                     contatoService.editarContatoDoUsuario(dadosUsuario.retornarContatoDTO());
                     enderecoService.editarEnderecoDoUsuario(dadosUsuario.retornarEnderecoDTO());
                     return new UsuarioDTO(repository.save(newUsuario));
