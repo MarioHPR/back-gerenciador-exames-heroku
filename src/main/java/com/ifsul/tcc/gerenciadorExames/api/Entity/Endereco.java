@@ -44,6 +44,7 @@ public class Endereco {
     }
 
     public Endereco(EnderecoDTO enderecoDTO) {
+        this.id = enderecoDTO.getId();
         this.cidade = enderecoDTO.getCidade();
         this.cep = enderecoDTO.getCep();
         this.bairro = enderecoDTO.getBairro();

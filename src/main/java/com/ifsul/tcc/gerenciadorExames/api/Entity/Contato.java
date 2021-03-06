@@ -35,6 +35,7 @@ public class Contato {
     }
 
     public Contato(ContatoDTO contatoDTO) {
+        this.id = contatoDTO.getId();
         this.contatoUm = contatoDTO.getContatoUm();
         this.contatoDois = contatoDTO.getContatoDois();
         this.flgContatoUsuario = contatoDTO.getFlgContatoUsuario();

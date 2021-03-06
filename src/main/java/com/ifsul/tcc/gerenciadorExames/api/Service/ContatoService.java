@@ -58,6 +58,24 @@ public class ContatoService  {
         return contatoRepository.findByUsuarioAndFlgContatoUsuarioIsTrue(usuario);
     }
 
+    public void editarContato(Contato contato) {
+        contatoRepository.save(contato);
+    }
+
+    public void editarContatoDoUsuario(ContatoDTO newContato) throws Exception {
+        String email = getEmail();
+        Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
+        ContatoDTO contato = this.buscarContatoDoUsuario(usuario.get());
+
+        if(contato.getId() > 0) {
+            Contato contatoModificado = new Contato(newContato);
+            contatoModificado.setId(contato.getId());
+            contatoModificado.setFlgContatoUsuario(contato.getFlgContatoUsuario());
+            contatoModificado.setUsuario(usuario.get());
+            contatoRepository.save(contatoModificado);
+        }
+    }
+
     public String getEmail() {
         Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();

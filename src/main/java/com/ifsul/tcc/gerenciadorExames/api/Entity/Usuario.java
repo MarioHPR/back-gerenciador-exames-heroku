@@ -1,7 +1,5 @@
 package com.ifsul.tcc.gerenciadorExames.api.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosUsuarioRequest;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.UsuarioDTO;
 import org.springframework.security.core.GrantedAuthority;

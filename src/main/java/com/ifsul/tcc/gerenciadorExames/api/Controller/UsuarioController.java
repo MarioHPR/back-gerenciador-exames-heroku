@@ -3,7 +3,6 @@ package com.ifsul.tcc.gerenciadorExames.api.Controller;
 import com.ifsul.tcc.gerenciadorExames.api.ApiApplication;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosUsuarioRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosUsuarioResponse;
-import com.ifsul.tcc.gerenciadorExames.api.DTO.UsuarioDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Service.UsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,11 +31,11 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping(value = "/editar/senha")
+    @PutMapping(value = "/editar")
     @ResponseBody
-    public ResponseEntity<String> trocarSenha( @RequestBody UsuarioDTO usuarioDTO) {
+    public ResponseEntity<Void> editarDadosDoUsuario( @RequestBody DadosUsuarioRequest dadosUsuario) {
         try {
-            usuarioService.alterarSenha( usuarioDTO.getEmail(), usuarioDTO.getSenha() );
+            usuarioService.alterarDadosUsuario( dadosUsuario );
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             logger.error("Erro: "+e.getMessage());

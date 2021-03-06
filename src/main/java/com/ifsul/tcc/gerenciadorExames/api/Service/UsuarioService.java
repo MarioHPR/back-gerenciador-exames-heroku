@@ -1,6 +1,5 @@
 package com.ifsul.tcc.gerenciadorExames.api.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosUsuarioRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosUsuarioResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.ContatoDTO;
@@ -54,7 +53,6 @@ public class UsuarioService {
         String email = getEmail();
         Optional<Usuario> usuario = repository.findByEmail(email);
         if(usuario.isPresent()){
-            ObjectMapper ob = new ObjectMapper();
             ContatoDTO contatoDTO = contatoService.buscarContatoDoUsuario(usuario.get());
             EnderecoDTO endereco = enderecoService.buscarEnderecoDoUsuario(usuario.get());
             return new DadosUsuarioResponse(usuario.get(), endereco, contatoDTO);
@@ -72,13 +70,21 @@ public class UsuarioService {
     }
 
     @Transactional( rollbackFor = Exception.class )
-    public UsuarioDTO alterarSenha(String email, String senha) throws Exception {
-
+    public UsuarioDTO alterarDadosUsuario(DadosUsuarioRequest dadosUsuario) throws Exception {
+        String email = getEmail();
         Optional<Usuario> usuario = repository.findByEmail(email);
 
         if (usuario.isPresent()) {
-            usuario.get().setSenha(senha);
-            return new UsuarioDTO(repository.save(usuario.get()));
+            if ( validaTamanhoDaSenha(dadosUsuario) ) {
+                if (dadosUsuario.getEmail().contains(emailMatcher)) {
+                    Usuario newUsuario = new Usuario(dadosUsuario);
+                    newUsuario.setSenha( new BCryptPasswordEncoder().encode(dadosUsuario.getSenha()) );
+                    newUsuario.setId(usuario.get().getId());
+                    contatoService.editarContatoDoUsuario(dadosUsuario.retornarContatoDTO());
+                    enderecoService.editarEnderecoDoUsuario(dadosUsuario.retornarEnderecoDTO());
+                    return new UsuarioDTO(repository.save(newUsuario));
+                }
+            }
         }
         throw new Exception();
     }
