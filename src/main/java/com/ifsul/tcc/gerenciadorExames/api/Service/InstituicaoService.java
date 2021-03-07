@@ -3,6 +3,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosInstituicaoRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosInstituicaoResponse;
+import com.ifsul.tcc.gerenciadorExames.api.DTO.EnderecoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.InstituicaoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.Contato;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.Endereco;
@@ -46,20 +47,19 @@ public class InstituicaoService {
     private ObjectMapper objectMapper;
 
     @Transactional( rollbackFor = Exception.class )
-    public InstituicaoDTO adicionarInstituicao(InstituicaoDTO instituicaoDTO) throws Exception {
+    public InstituicaoDTO adicionarInstituicao(DadosInstituicaoRequest dadosInstituicao) throws Exception {
         String email = getEmail();
         Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
         if(usuario.isPresent()){
-            Contato contato = contatoRepository.findById(instituicaoDTO.getIdContato()).get();
-            Endereco endereco = enderecoRepository.findById(instituicaoDTO.getIdLocalidade()).get();
 
-            Instituicao instituicao = new Instituicao( instituicaoDTO );
+            Contato newContato = new Contato(contatoService.salvar(dadosInstituicao.getContatoDTO(), email));
+            Endereco newEndereco = new Endereco(enderecoService.salvar(dadosInstituicao.getEnderecoDTO(), email));
+
+            Instituicao instituicao = new Instituicao(dadosInstituicao.getNome() );
             instituicao.setUsuario( usuario.get() );
-            instituicao.setEndereco( endereco );
-            instituicao.setContato( contato );
-
+            instituicao.setEndereco( newEndereco );
+            instituicao.setContato( newContato );
             Instituicao instituicaoPersistido = instituicaoRepository.save( instituicao );
-            System.out.println(objectMapper.writeValueAsString(instituicaoPersistido));
             return  new InstituicaoDTO( instituicaoPersistido );
         }
         throw new Exception();

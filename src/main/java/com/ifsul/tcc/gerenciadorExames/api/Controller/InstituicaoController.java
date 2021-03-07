@@ -25,10 +25,10 @@ public class InstituicaoController {
     private Logger logger = LoggerFactory.getLogger(ApiApplication.class);
     @PostMapping(value = "/salvar")
     @ResponseBody
-    public ResponseEntity<String> salvarInstituicao(@RequestBody InstituicaoDTO instituicaoDTO ) {
+    public ResponseEntity<String> salvarInstituicao(@RequestBody DadosInstituicaoRequest dadosInstituicao ) {
         logger.info(LocalDate.now().toString());
         try {
-            instituicaoService.adicionarInstituicao( instituicaoDTO );
+            instituicaoService.adicionarInstituicao( dadosInstituicao );
             return ResponseEntity.ok().build();
         } catch ( Exception e ) {
             logger.error(e.getMessage());
