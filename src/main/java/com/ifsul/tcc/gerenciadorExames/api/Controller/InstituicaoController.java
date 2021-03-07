@@ -1,6 +1,7 @@
 package com.ifsul.tcc.gerenciadorExames.api.Controller;
 
 import com.ifsul.tcc.gerenciadorExames.api.ApiApplication;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosInstituicaoRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosInstituicaoResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.InstituicaoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Service.InstituicaoService;
@@ -55,6 +56,27 @@ public class InstituicaoController {
         try {
             return ResponseEntity.ok().body(instituicaoService.buscarInstituicaoPorId(id));
         } catch ( Exception e ){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping(value = "/editar/{id}")
+    @ResponseBody
+    public ResponseEntity<Void> editar(@PathVariable Integer id, @RequestBody DadosInstituicaoRequest dadosInstituicao) throws Exception {
+        return ResponseEntity.ok().body(instituicaoService.editarInstituicao(id, dadosInstituicao));
+    }
+
+    @DeleteMapping(value = "/deletar/{id}")
+    @ResponseBody
+    public ResponseEntity<String> deletarInstituicao(@PathVariable int id) {
+        logger.info(LocalDate.now().toString() + ", id: " + id );
+
+        try {
+            instituicaoService.removerInstituicao( id);
+            return ResponseEntity.ok().body("Instituicao removida com sucesso! ");
+
+        } catch (Exception e) {
+            logger.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

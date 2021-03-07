@@ -1,6 +1,7 @@
 package com.ifsul.tcc.gerenciadorExames.api.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosInstituicaoRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosInstituicaoResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.InstituicaoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.Contato;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +35,13 @@ public class InstituicaoService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ContatoService contatoService;
+
+    @Autowired
+    private EnderecoService enderecoService;
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -98,5 +107,40 @@ public class InstituicaoService {
     public String getEmail() {
         Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();
+    }
+
+    @Transactional( rollbackFor = Exception.class )
+    public Void editarInstituicao(Integer id, DadosInstituicaoRequest dadosInstituicao) throws Exception {
+        String email = getEmail();
+        Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
+        Optional<InstituicaoDTO> instituicaoOptional = instituicaoRepository.findByIdAndUsuario( id, usuario.get() );
+
+        if(instituicaoOptional.isPresent()) {
+            Contato newContato = contatoService.editarContato(instituicaoOptional.get().getIdContato(), usuario.get(), dadosInstituicao.getContatoDTO());
+            Endereco newEndereco = enderecoService.editarEndereco(instituicaoOptional.get().getIdLocalidade(), usuario.get(), dadosInstituicao.getEnderecoDTO());
+            Instituicao newInstituicao = new Instituicao();
+            newInstituicao.setId(instituicaoOptional.get().getId());
+            newInstituicao.setNome(dadosInstituicao.getNome());
+            newInstituicao.setUsuario(usuario.get());
+            newInstituicao.setContato(newContato);
+            newInstituicao.setEndereco(newEndereco);
+
+            instituicaoRepository.save( newInstituicao );
+        }
+
+        throw new Exception();
+    }
+
+    @Transactional( rollbackFor = Exception.class )
+    public String removerInstituicao(int id) throws Exception {
+        String email = getEmail();
+        Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
+        Optional<InstituicaoDTO> instituicao = instituicaoRepository.findByIdAndUsuario( id, usuario.get() );
+
+        if (instituicao.isPresent()) {
+            instituicaoRepository.deleteById(id);
+            return " Instituição '" + instituicao.get().getNome() + "' foi deletada!";
+        }
+        throw new Exception();
     }
 }

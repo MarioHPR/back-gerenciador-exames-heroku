@@ -58,8 +58,11 @@ public class ContatoService  {
         return contatoRepository.findByUsuarioAndFlgContatoUsuarioIsTrue(usuario);
     }
 
-    public void editarContato(Contato contato) {
-        contatoRepository.save(contato);
+    public Contato editarContato(Integer id, Usuario usuario, ContatoDTO contatoAtualizado) {
+        Contato contato = new Contato(contatoRepository.findByIdAndUsuario(id, usuario).get());
+        contato.setContatoUm(contatoAtualizado.getContatoUm());
+        contato.setContatoDois(contatoAtualizado.getContatoDois());
+        return contatoRepository.save(contato);
     }
 
     public void editarContatoDoUsuario(ContatoDTO newContato) throws Exception {
