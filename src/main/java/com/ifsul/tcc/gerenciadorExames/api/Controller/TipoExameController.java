@@ -37,6 +37,16 @@ public class TipoExameController {
         }
     }
 
+    @GetMapping( value = "/buscar/todos" )
+    @ResponseBody
+    public ResponseEntity<List<TipoExameDTO>> todosOsTiposExames() throws Exception {
+        try {
+            return  ResponseEntity.ok().body(tipoExameService.buscarTodosOsTipoExamesDoUsuario());
+        } catch ( Exception e ){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @GetMapping( value = "/buscar/")
     @ResponseBody
     public ResponseEntity<List<DadosTipoExameResponse>> todosOsTipos() {

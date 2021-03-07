@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class TipoExameService {
 
@@ -122,6 +124,18 @@ public class TipoExameService {
             }
         }
         return  new TipoExameDTO(tipoExamePersistida);
+    }
+
+    public List<TipoExameDTO> buscarTodosOsTipoExamesDoUsuario() throws Exception {
+        String email = getEmail();
+        Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
+        if(usuario.isPresent()) {
+            return tipoExameRepository.findAllByUsuarioOrderByNomeExame(usuario.get())
+                    .stream()
+                    .map(TipoExameDTO::new)
+                    .collect(Collectors.toList());
+        }
+        throw new Exception();
     }
 
     public List<DadosTipoExameResponse> buscarTipoExamesDoUsuario() throws Exception {
