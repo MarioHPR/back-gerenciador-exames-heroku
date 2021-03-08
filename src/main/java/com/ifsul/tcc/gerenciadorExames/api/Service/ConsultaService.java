@@ -3,9 +3,6 @@ package com.ifsul.tcc.gerenciadorExames.api.Service;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosConsultaRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosConsultaResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.ConsultaDTO;
-import com.ifsul.tcc.gerenciadorExames.api.DTO.ContatoDTO;
-import com.ifsul.tcc.gerenciadorExames.api.DTO.EnderecoDTO;
-import com.ifsul.tcc.gerenciadorExames.api.DTO.InstituicaoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.Consulta;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.Instituicao;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.Usuario;
@@ -52,19 +49,7 @@ public class ConsultaService {
         if(instituicaoOptional.isPresent()) {
             instituicao = instituicaoOptional.get();
         } else {
-            EnderecoDTO enderecoDTO = dadosConsulta.getDadosInstituicao().getEnderecoDTO();
-            enderecoDTO.setFlgEnderecoDoUsuario(Boolean.FALSE);
-            ContatoDTO contatoDTO = dadosConsulta.getDadosInstituicao().getContatoDTO();
-            contatoDTO.setFlgContatoUsuario(Boolean.FALSE);
-            EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
-            ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
-
-            InstituicaoDTO instituicaoDTO = new InstituicaoDTO();
-            instituicaoDTO.setNome(dadosConsulta.getDadosInstituicao().getNome());
-            instituicaoDTO.setIdContato(newContato.getId());
-            instituicaoDTO.setIdLocalidade(newEndereco.getId());
-
-            instituicao = instituicaoService.salvar(instituicaoDTO);
+            instituicao = instituicaoService.adicionarInstituicao(dadosConsulta.getDadosInstituicao());
         }
 
         if( usuario.isPresent() ){
@@ -106,18 +91,7 @@ public class ConsultaService {
         if(instituicaoOptional.isPresent()) {
             instituicao = instituicaoOptional.get();
         } else {
-            EnderecoDTO enderecoDTO = dadosConsulta.getDadosInstituicao().getEnderecoDTO();
-            ContatoDTO contatoDTO = dadosConsulta.getDadosInstituicao().getContatoDTO();
-
-            EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
-            ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
-
-            InstituicaoDTO instituicaoDTO = new InstituicaoDTO();
-            instituicaoDTO.setNome(dadosConsulta.getDadosInstituicao().getNome());
-            instituicaoDTO.setIdContato(newContato.getId());
-            instituicaoDTO.setIdLocalidade(newEndereco.getId());
-
-            instituicao = instituicaoService.salvar(instituicaoDTO);
+            instituicao = instituicaoService.adicionarInstituicao(dadosConsulta.getDadosInstituicao());
         }
 
         if(usuario.isPresent()) {

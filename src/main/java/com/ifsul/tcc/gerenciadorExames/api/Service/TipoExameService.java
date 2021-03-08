@@ -69,19 +69,20 @@ public class TipoExameService {
         if(instituicaoOptional.isPresent()) {
            instituicao = instituicaoOptional.get();
         } else {
-            EnderecoDTO enderecoDTO = dadosTipoExameRequest.getDadosInstituicao().getEnderecoDTO();
-            enderecoDTO.setFlgEnderecoDoUsuario(Boolean.FALSE);
-            ContatoDTO contatoDTO = dadosTipoExameRequest.getDadosInstituicao().getContatoDTO();
-            contatoDTO.setFlgContatoUsuario(Boolean.FALSE);
-            EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
-            ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
-
-            InstituicaoDTO instituicaoDTO = new InstituicaoDTO();
-            instituicaoDTO.setNome(dadosTipoExameRequest.getDadosInstituicao().getNome());
-            instituicaoDTO.setIdContato(newContato.getId());
-            instituicaoDTO.setIdLocalidade(newEndereco.getId());
-
-            instituicao = instituicaoService.salvar(instituicaoDTO);
+            instituicao = instituicaoService.adicionarInstituicao(dadosTipoExameRequest.getDadosInstituicao());
+//            EnderecoDTO enderecoDTO = dadosTipoExameRequest.getDadosInstituicao().getEnderecoDTO();
+//            enderecoDTO.setFlgEnderecoDoUsuario(Boolean.FALSE);
+//            ContatoDTO contatoDTO = dadosTipoExameRequest.getDadosInstituicao().getContatoDTO();
+//            contatoDTO.setFlgContatoUsuario(Boolean.FALSE);
+//            EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
+//            ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
+//
+//            InstituicaoDTO instituicaoDTO = new InstituicaoDTO();
+//            instituicaoDTO.setNome(dadosTipoExameRequest.getDadosInstituicao().getNome());
+//            instituicaoDTO.setIdContato(newContato.getId());
+//            instituicaoDTO.setIdLocalidade(newEndereco.getId());
+//
+//            instituicao = instituicaoService.salvar(instituicaoDTO);
         }
 
         Optional<TipoExame> tipoExameOptional = tipoExameRepository.findByUsuarioAndNomeExame(usuario.get(), dadosTipoExameRequest.getNomeExame());

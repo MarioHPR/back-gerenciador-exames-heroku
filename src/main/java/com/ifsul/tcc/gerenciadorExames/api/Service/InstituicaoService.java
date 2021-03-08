@@ -3,6 +3,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosInstituicaoRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosInstituicaoResponse;
+import com.ifsul.tcc.gerenciadorExames.api.DTO.ContatoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.EnderecoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.InstituicaoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.Contato;
@@ -47,22 +48,26 @@ public class InstituicaoService {
     private ObjectMapper objectMapper;
 
     @Transactional( rollbackFor = Exception.class )
-    public InstituicaoDTO adicionarInstituicao(DadosInstituicaoRequest dadosInstituicao) throws Exception {
+    public Instituicao adicionarInstituicao(DadosInstituicaoRequest dadosInstituicao) throws Exception {
         String email = getEmail();
         Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
         if(usuario.isPresent()){
 
-            Contato newContato = new Contato(contatoService.salvar(dadosInstituicao.getContatoDTO(), email));
-            Endereco newEndereco = new Endereco(enderecoService.salvar(dadosInstituicao.getEnderecoDTO(), email));
+            EnderecoDTO enderecoDTO = dadosInstituicao.getEnderecoDTO();
+            ContatoDTO contatoDTO = dadosInstituicao.getContatoDTO();
 
-            Instituicao instituicao = new Instituicao(dadosInstituicao.getNome() );
-            instituicao.setUsuario( usuario.get() );
-            instituicao.setEndereco( newEndereco );
-            instituicao.setContato( newContato );
-            Instituicao instituicaoPersistido = instituicaoRepository.save( instituicao );
-            return  new InstituicaoDTO( instituicaoPersistido );
+            EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
+            ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
+
+            InstituicaoDTO instituicaoDTO = new InstituicaoDTO();
+            instituicaoDTO.setNome(dadosInstituicao.getNome());
+            instituicaoDTO.setIdContato(newContato.getId());
+            instituicaoDTO.setIdLocalidade(newEndereco.getId());
+
+            return salvar(instituicaoDTO);
+        } else {
+            throw new Exception();
         }
-        throw new Exception();
     }
 
     @Transactional( rollbackFor = Exception.class )
@@ -110,7 +115,7 @@ public class InstituicaoService {
     }
 
     @Transactional( rollbackFor = Exception.class )
-    public Void editarInstituicao(Integer id, DadosInstituicaoRequest dadosInstituicao) throws Exception {
+    public Instituicao editarInstituicao(Integer id, DadosInstituicaoRequest dadosInstituicao) throws Exception {
         String email = getEmail();
         Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
         Optional<InstituicaoDTO> instituicaoOptional = instituicaoRepository.findByIdAndUsuario( id, usuario.get() );
@@ -125,7 +130,8 @@ public class InstituicaoService {
             newInstituicao.setContato(newContato);
             newInstituicao.setEndereco(newEndereco);
 
-            instituicaoRepository.save( newInstituicao );
+            return instituicaoRepository.save( newInstituicao );
+
         }
 
         throw new Exception();

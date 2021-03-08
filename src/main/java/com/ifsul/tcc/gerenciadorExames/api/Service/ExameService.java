@@ -136,18 +136,7 @@ public class ExameService {
         if(instituicaoOptional.isPresent()) {
             instituicao = instituicaoOptional.get();
         } else {
-            EnderecoDTO enderecoDTO = dadosExameRequest.getDadosInstituicao().getEnderecoDTO();
-            ContatoDTO contatoDTO = dadosExameRequest.getDadosInstituicao().getContatoDTO();
-
-            EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
-            ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
-
-            InstituicaoDTO instituicaoDTO = new InstituicaoDTO();
-            instituicaoDTO.setNome(dadosExameRequest.getDadosInstituicao().getNome());
-            instituicaoDTO.setIdContato(newContato.getId());
-            instituicaoDTO.setIdLocalidade(newEndereco.getId());
-
-            instituicao = instituicaoService.salvar(instituicaoDTO);
+            instituicao = instituicaoService.adicionarInstituicao(dadosExameRequest.getDadosInstituicao());
         }
 
         if( usuario.isPresent() && tipoExame.isPresent() ) {

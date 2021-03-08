@@ -63,7 +63,8 @@ public class InstituicaoController {
     @PutMapping(value = "/editar/{id}")
     @ResponseBody
     public ResponseEntity<Void> editar(@PathVariable Integer id, @RequestBody DadosInstituicaoRequest dadosInstituicao) throws Exception {
-        return ResponseEntity.ok().body(instituicaoService.editarInstituicao(id, dadosInstituicao));
+        instituicaoService.editarInstituicao(id, dadosInstituicao);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(value = "/deletar/{id}")
