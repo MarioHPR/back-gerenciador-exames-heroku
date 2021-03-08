@@ -54,8 +54,9 @@ public class InstituicaoService {
         if(usuario.isPresent()){
 
             EnderecoDTO enderecoDTO = dadosInstituicao.getEnderecoDTO();
+            enderecoDTO.setFlgEnderecoDoUsuario(Boolean.FALSE);
             ContatoDTO contatoDTO = dadosInstituicao.getContatoDTO();
-
+            contatoDTO.setFlgContatoUsuario(Boolean.FALSE);
             EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
             ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
 
