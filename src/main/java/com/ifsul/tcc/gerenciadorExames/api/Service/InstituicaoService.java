@@ -100,11 +100,11 @@ public class InstituicaoService {
         throw new Exception();
     }
 
-    public InstituicaoDTO buscarInstituicaoPorId( Integer id) throws Exception {
+    public DadosInstituicaoResponse buscarInstituicaoPorId(Integer id) throws Exception {
         String email = getEmail();
         Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
         if(usuario.isPresent()){
-            InstituicaoDTO newInstituicao = instituicaoRepository.findByIdAndUsuario( id, usuario.get() ).get();
+            DadosInstituicaoResponse newInstituicao = instituicaoRepository.findByIdAndUsuario( id, usuario.get() ).get();
             return newInstituicao;
         }
         throw new Exception();
@@ -119,11 +119,11 @@ public class InstituicaoService {
     public Instituicao editarInstituicao(Integer id, DadosInstituicaoRequest dadosInstituicao) throws Exception {
         String email = getEmail();
         Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
-        Optional<InstituicaoDTO> instituicaoOptional = instituicaoRepository.findByIdAndUsuario( id, usuario.get() );
+        Optional<DadosInstituicaoResponse> instituicaoOptional = instituicaoRepository.findByIdAndUsuario( id, usuario.get() );
 
         if(instituicaoOptional.isPresent()) {
-            Contato newContato = contatoService.editarContato(instituicaoOptional.get().getIdContato(), usuario.get(), dadosInstituicao.getContatoDTO());
-            Endereco newEndereco = enderecoService.editarEndereco(instituicaoOptional.get().getIdLocalidade(), usuario.get(), dadosInstituicao.getEnderecoDTO());
+            Contato newContato = contatoService.editarContato(instituicaoOptional.get().getContatoDTO().getId(), usuario.get(), dadosInstituicao.getContatoDTO());
+            Endereco newEndereco = enderecoService.editarEndereco(instituicaoOptional.get().getEnderecoDTO().getId(), usuario.get(), dadosInstituicao.getEnderecoDTO());
             Instituicao newInstituicao = new Instituicao();
             newInstituicao.setId(instituicaoOptional.get().getId());
             newInstituicao.setNome(dadosInstituicao.getNome());
@@ -142,7 +142,7 @@ public class InstituicaoService {
     public String removerInstituicao(int id) throws Exception {
         String email = getEmail();
         Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
-        Optional<InstituicaoDTO> instituicao = instituicaoRepository.findByIdAndUsuario( id, usuario.get() );
+        Optional<DadosInstituicaoResponse> instituicao = instituicaoRepository.findByIdAndUsuario( id, usuario.get() );
 
         if (instituicao.isPresent()) {
             instituicaoRepository.deleteById(id);

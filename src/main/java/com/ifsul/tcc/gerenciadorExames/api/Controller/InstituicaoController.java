@@ -50,7 +50,7 @@ public class InstituicaoController {
 
     @GetMapping( value = "/buscar/{id}")
     @ResponseBody
-    public ResponseEntity<InstituicaoDTO> buscarInstituicaoPorId(@PathVariable Integer id) {
+    public ResponseEntity<DadosInstituicaoResponse> buscarInstituicaoPorId(@PathVariable Integer id) {
         logger.info(LocalDate.now().toString());
         logger.warn("Pode voltar vazio caso nao haja Nenhuma instituição salva!");
         try {
