@@ -3,6 +3,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosTipoExameRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosTipoExameResponse;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.TipoExameResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.*;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.*;
 import com.ifsul.tcc.gerenciadorExames.api.Repository.*;
@@ -70,19 +71,6 @@ public class TipoExameService {
            instituicao = instituicaoOptional.get();
         } else {
             instituicao = instituicaoService.adicionarInstituicao(dadosTipoExameRequest.getDadosInstituicao());
-//            EnderecoDTO enderecoDTO = dadosTipoExameRequest.getDadosInstituicao().getEnderecoDTO();
-//            enderecoDTO.setFlgEnderecoDoUsuario(Boolean.FALSE);
-//            ContatoDTO contatoDTO = dadosTipoExameRequest.getDadosInstituicao().getContatoDTO();
-//            contatoDTO.setFlgContatoUsuario(Boolean.FALSE);
-//            EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
-//            ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
-//
-//            InstituicaoDTO instituicaoDTO = new InstituicaoDTO();
-//            instituicaoDTO.setNome(dadosTipoExameRequest.getDadosInstituicao().getNome());
-//            instituicaoDTO.setIdContato(newContato.getId());
-//            instituicaoDTO.setIdLocalidade(newEndereco.getId());
-//
-//            instituicao = instituicaoService.salvar(instituicaoDTO);
         }
 
         Optional<TipoExame> tipoExameOptional = tipoExameRepository.findByUsuarioAndNomeExame(usuario.get(), dadosTipoExameRequest.getNomeExame());
@@ -127,13 +115,16 @@ public class TipoExameService {
         return  new TipoExameDTO(tipoExamePersistida);
     }
 
-    public List<TipoExameDTO> buscarTodosOsTipoExamesDoUsuario() throws Exception {
+    public List<TipoExameResponse> buscarTodosOsTipoExamesDoUsuario() throws Exception {
         String email = getEmail();
         Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
         if(usuario.isPresent()) {
             return tipoExameRepository.findAllByUsuarioOrderByNomeExame(usuario.get())
-                    .stream()
-                    .map(TipoExameDTO::new)
+                    .stream().map( it -> {
+                        TipoExameResponse t = new TipoExameResponse(it);
+                        t.setQuantidade(exameRepository.countByTipoExameAndUsuarioAndFlgDeletedIsFalse(it, usuario.get()));
+                        return t;
+                    })
                     .collect(Collectors.toList());
         }
         throw new Exception();

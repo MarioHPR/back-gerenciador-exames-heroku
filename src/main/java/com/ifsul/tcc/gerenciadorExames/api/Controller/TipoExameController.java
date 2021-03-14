@@ -3,6 +3,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Controller;
 import com.ifsul.tcc.gerenciadorExames.api.ApiApplication;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosTipoExameRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosTipoExameResponse;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.TipoExameResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.TipoExameDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Service.TipoExameService;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class TipoExameController {
 
     @GetMapping( value = "/buscar/todos" )
     @ResponseBody
-    public ResponseEntity<List<TipoExameDTO>> todosOsTiposExames() throws Exception {
+    public ResponseEntity<List<TipoExameResponse>> todosOsTiposExames() throws Exception {
         try {
             return  ResponseEntity.ok().body(tipoExameService.buscarTodosOsTipoExamesDoUsuario());
         } catch ( Exception e ){
