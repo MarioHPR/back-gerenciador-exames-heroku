@@ -73,8 +73,8 @@ public class EnderecoService {
         return enderecoRepository.findByUsuarioAndFlgEnderecoDoUsuarioIsTrue(usuario);
     }
 
-    public Endereco editarEndereco(Integer id, Usuario usuario, EnderecoDTO endAtualizado) throws Exception {
-        Optional<Endereco> endereco = enderecoRepository.findByIdAndUsuario(id, usuario);
+    public Endereco editarEndereco(Integer id, EnderecoDTO endAtualizado) throws Exception {
+        Optional<Endereco> endereco = enderecoRepository.findById(id);
         if(endereco.isPresent()) {
             endAtualizado.setId(endereco.get().getId());
             endAtualizado.setFlgEnderecoDoUsuario(endereco.get().getFlgEnderecoDoUsuario());

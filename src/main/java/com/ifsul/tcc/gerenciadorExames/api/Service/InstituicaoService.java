@@ -123,7 +123,7 @@ public class InstituicaoService {
 
         if(instituicaoOptional.isPresent()) {
             Contato newContato = contatoService.editarContato(instituicaoOptional.get().getContatoDTO().getId(), usuario.get(), dadosInstituicao.getContatoDTO());
-            Endereco newEndereco = enderecoService.editarEndereco(instituicaoOptional.get().getEnderecoDTO().getId(), usuario.get(), dadosInstituicao.getEnderecoDTO());
+            Endereco newEndereco = enderecoService.editarEndereco(instituicaoOptional.get().getEnderecoDTO().getId(), dadosInstituicao.getEnderecoDTO());
             Instituicao newInstituicao = new Instituicao();
             newInstituicao.setId(instituicaoOptional.get().getId());
             newInstituicao.setNome(dadosInstituicao.getNome());
