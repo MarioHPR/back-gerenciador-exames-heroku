@@ -23,14 +23,9 @@ public class UsuarioController {
 
     @PostMapping(value = "/salvar")
     @ResponseBody
-    public ResponseEntity<Void> adicionarUsuario(@RequestBody @Valid DadosUsuarioRequest dadosUsuario  ) {
-        try{
-            usuarioService.adicionarUsuario(dadosUsuario);
-            return ResponseEntity.ok().build();
-        }catch(Exception e){
-            logger.error("Erro ao salvar usuario: " + e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Void> adicionarUsuario(@RequestBody @Valid DadosUsuarioRequest dadosUsuario  ) throws Exception {
+        usuarioService.adicionarUsuario(dadosUsuario);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping(value = "/editar")
