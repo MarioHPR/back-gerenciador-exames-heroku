@@ -23,20 +23,25 @@ public class UsuarioController {
 
     @PostMapping(value = "/salvar")
     @ResponseBody
-    public ResponseEntity<Void> adicionarUsuario(@RequestBody @Valid DadosUsuarioRequest dadosUsuario  ) throws Exception {
-        usuarioService.adicionarUsuario(dadosUsuario);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> adicionarUsuario(@RequestBody DadosUsuarioRequest dadosUsuario  ) {
+        try{
+            usuarioService.adicionarUsuario(dadosUsuario);
+            return ResponseEntity.ok().build();
+        }catch(Exception e){
+            logger.error("Erro ao salvar usuario: " + e.getMessage());
+            return ResponseEntity.badRequest().body(e.getLocalizedMessage());
+        }
     }
 
     @PutMapping(value = "/editar")
     @ResponseBody
-    public ResponseEntity<Void> editarDadosDoUsuario( @RequestBody @Valid DadosUsuarioRequest dadosUsuario) {
+    public ResponseEntity<String> editarDadosDoUsuario( @RequestBody DadosUsuarioRequest dadosUsuario) {
         try {
             usuarioService.alterarDadosUsuario( dadosUsuario );
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             logger.error("Erro: "+e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(e.getLocalizedMessage());
         }
     }
 

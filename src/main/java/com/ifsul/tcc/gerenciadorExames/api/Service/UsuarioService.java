@@ -46,10 +46,10 @@ public class UsuarioService {
                 enderecoService.salvar(end, response.getEmail());
                 return response;
             }
-            throw new NotAcceptableStatusException("Email informado não é valido para o sistema. Email deve conter \"@gmail.com\" como dominio! ");
+            throw new Exception("Email informado não é valido para o sistema. Email deve conter \"@gmail.com\" como dominio! ");
         }
 
-        throw new NotAcceptableStatusException("Tamanho da senha inválida, minimo de 6 caracteres!");
+        throw new Exception("Tamanho da senha inválida, minimo de 6 caracteres!");
     }
 
     public DadosUsuarioResponse buscarDadosDoUsuario() throws Exception {
@@ -60,7 +60,7 @@ public class UsuarioService {
             EnderecoDTO endereco = enderecoService.buscarEnderecoDoUsuario(usuario.get());
             return new DadosUsuarioResponse(usuario.get(), endereco, contatoDTO);
         }
-        return null;
+        throw new NotAcceptableStatusException("Usuário não cadastrado!");
     }
 
     public String getEmail() {
