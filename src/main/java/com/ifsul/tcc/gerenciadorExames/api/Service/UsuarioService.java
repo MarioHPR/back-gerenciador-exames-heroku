@@ -45,8 +45,9 @@ public class UsuarioService {
                 enderecoService.salvar(end, response.getEmail());
                 return response;
             }
+            throw new Exception("Email informado não é valido para o sistema. Email deve conter \"@gmail.com\" como dominio! ");
         }
-        throw new Exception();
+        throw new Exception("Tamanho da senha inválida, minimo de 6 caracteres!");
     }
 
     public DadosUsuarioResponse buscarDadosDoUsuario() throws Exception {

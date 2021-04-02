@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/api/usuario")
 public class UsuarioController {
@@ -21,7 +23,7 @@ public class UsuarioController {
 
     @PostMapping(value = "/salvar")
     @ResponseBody
-    public ResponseEntity<Void> adicionarUsuario(@RequestBody DadosUsuarioRequest dadosUsuario  ) {
+    public ResponseEntity<Void> adicionarUsuario(@RequestBody @Valid DadosUsuarioRequest dadosUsuario  ) {
         try{
             usuarioService.adicionarUsuario(dadosUsuario);
             return ResponseEntity.ok().build();
@@ -33,7 +35,7 @@ public class UsuarioController {
 
     @PutMapping(value = "/editar")
     @ResponseBody
-    public ResponseEntity<Void> editarDadosDoUsuario( @RequestBody DadosUsuarioRequest dadosUsuario) {
+    public ResponseEntity<Void> editarDadosDoUsuario( @RequestBody @Valid DadosUsuarioRequest dadosUsuario) {
         try {
             usuarioService.alterarDadosUsuario( dadosUsuario );
             return ResponseEntity.ok().build();

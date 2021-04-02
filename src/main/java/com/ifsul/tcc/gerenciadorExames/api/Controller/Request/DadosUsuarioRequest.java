@@ -3,21 +3,34 @@ package com.ifsul.tcc.gerenciadorExames.api.Controller.Request;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.ContatoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.EnderecoDTO;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class DadosUsuarioRequest {
     private Integer id;
+    @NotNull(message = "Nome é obrigatório!")
     private String nome;
+    @NotNull(message = "Cpf é obrigatório!")
     private String cpf;
+    @NotNull(message = "Data nascimento é obrigatório!")
     private LocalDate dataNascimento;
+    @NotNull(message = "Email é obrigatório!")
     private String email;
+    @NotNull(message = "Senha é obrigatório!")
     private String senha;
+    @NotNull(message = "Contato principal é obrigatório!")
     private String contatoUm;
+    @NotNull(message = "Contato secundario é obrigatório!")
     private String contatoDois;
+    @NotNull(message = "Cidade é obrigatório!")
     private String cidade;
+    @NotNull(message = "Cep é obrigatório!")
     private String cep;
+    @NotNull(message = "Bairro é obrigatório!")
     private String bairro;
+    @NotNull(message = "Rua é obrigatório!")
     private String rua;
+    @NotNull(message = "Número é obrigatório!")
     private int numero;
 
     public DadosUsuarioRequest() {}
