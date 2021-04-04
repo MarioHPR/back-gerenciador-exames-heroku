@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.NotAcceptableStatusException;
 
 import java.util.Optional;
 
@@ -46,10 +45,8 @@ public class UsuarioService {
                 enderecoService.salvar(end, response.getEmail());
                 return response;
             }
-            throw new Exception("Email informado não é valido para o sistema. Email deve conter \"@gmail.com\" como dominio! ");
         }
-
-        throw new Exception("Tamanho da senha inválida, minimo de 6 caracteres!");
+        return null;
     }
 
     public DadosUsuarioResponse buscarDadosDoUsuario() throws Exception {
@@ -60,7 +57,7 @@ public class UsuarioService {
             EnderecoDTO endereco = enderecoService.buscarEnderecoDoUsuario(usuario.get());
             return new DadosUsuarioResponse(usuario.get(), endereco, contatoDTO);
         }
-        throw new NotAcceptableStatusException("Usuário não cadastrado!");
+        return null;
     }
 
     public String getEmail() {

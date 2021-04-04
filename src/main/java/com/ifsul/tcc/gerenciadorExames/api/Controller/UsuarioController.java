@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @Controller
 @RequestMapping("/api/usuario")
 public class UsuarioController {
@@ -23,26 +21,17 @@ public class UsuarioController {
 
     @PostMapping(value = "/salvar")
     @ResponseBody
-    public ResponseEntity<String> adicionarUsuario(@RequestBody DadosUsuarioRequest dadosUsuario  ) {
-        try{
-            usuarioService.adicionarUsuario(dadosUsuario);
-            return ResponseEntity.ok().body("sucess");
-        }catch(Exception e){
-            logger.error("Erro ao salvar usuario: " + e.getMessage());
-            return ResponseEntity.badRequest().body(e.getLocalizedMessage());
-        }
+    public ResponseEntity<Void> adicionarUsuario(@RequestBody DadosUsuarioRequest dadosUsuario  ) throws Exception {
+        DadosUsuarioRequest teste = dadosUsuario;
+        usuarioService.adicionarUsuario(dadosUsuario);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping(value = "/editar")
     @ResponseBody
-    public ResponseEntity<String> editarDadosDoUsuario( @RequestBody DadosUsuarioRequest dadosUsuario) {
-        try {
-            usuarioService.alterarDadosUsuario( dadosUsuario );
-            return ResponseEntity.ok().body("sucess");
-        } catch (Exception e) {
-            logger.error("Erro: "+e.getMessage());
-            return ResponseEntity.badRequest().body(e.getLocalizedMessage());
-        }
+    public ResponseEntity<Void> editarDadosDoUsuario( @RequestBody DadosUsuarioRequest dadosUsuario) throws Exception {
+        usuarioService.alterarDadosUsuario( dadosUsuario );
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "/buscar-dados")
