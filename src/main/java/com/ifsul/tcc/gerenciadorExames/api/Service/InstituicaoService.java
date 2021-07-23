@@ -2,6 +2,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosInstituicaoRequest;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.NewDadosInstituicaoRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosInstituicaoResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.ContatoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.EnderecoDTO;
@@ -56,6 +57,30 @@ public class InstituicaoService {
             EnderecoDTO enderecoDTO = dadosInstituicao.getEnderecoDTO();
             enderecoDTO.setFlgEnderecoDoUsuario(Boolean.FALSE);
             ContatoDTO contatoDTO = dadosInstituicao.getContatoDTO();
+            contatoDTO.setFlgContatoUsuario(Boolean.FALSE);
+            EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
+            ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
+
+            InstituicaoDTO instituicaoDTO = new InstituicaoDTO();
+            instituicaoDTO.setNome(dadosInstituicao.getNome());
+            instituicaoDTO.setIdContato(newContato.getId());
+            instituicaoDTO.setIdLocalidade(newEndereco.getId());
+
+            return salvar(instituicaoDTO);
+        } else {
+            throw new Exception();
+        }
+    }
+
+    @Transactional( rollbackFor = Exception.class )
+    public Instituicao adicionarInstituicaoNew(NewDadosInstituicaoRequest dadosInstituicao) throws Exception {
+        String email = getEmail();
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+        if(usuario.isPresent()){
+
+            EnderecoDTO enderecoDTO = objectMapper.convertValue(dadosInstituicao, EnderecoDTO.class);
+            enderecoDTO.setFlgEnderecoDoUsuario(Boolean.FALSE);
+            ContatoDTO contatoDTO = objectMapper.convertValue(dadosInstituicao, ContatoDTO.class);
             contatoDTO.setFlgContatoUsuario(Boolean.FALSE);
             EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
             ContatoDTO newContato = contatoService.salvar(contatoDTO, email);

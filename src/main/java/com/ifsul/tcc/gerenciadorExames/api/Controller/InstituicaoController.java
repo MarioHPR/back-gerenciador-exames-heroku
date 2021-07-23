@@ -2,6 +2,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Controller;
 
 import com.ifsul.tcc.gerenciadorExames.api.ApiApplication;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosInstituicaoRequest;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.NewDadosInstituicaoRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosInstituicaoResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.InstituicaoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Service.InstituicaoService;
@@ -23,12 +24,24 @@ public class InstituicaoController {
     InstituicaoService instituicaoService;
 
     private Logger logger = LoggerFactory.getLogger(ApiApplication.class);
+//    @PostMapping(value = "/salvar")
+//    @ResponseBody
+//    public ResponseEntity<String> salvarInstituicao(@RequestBody DadosInstituicaoRequest dadosInstituicao ) {
+//        logger.info(LocalDate.now().toString());
+//        try {
+//            instituicaoService.adicionarInstituicao( dadosInstituicao );
+//            return ResponseEntity.ok().build();
+//        } catch ( Exception e ) {
+//            logger.error(e.getMessage());
+//            return ResponseEntity.badRequest().build();
+//        }
+//    }
     @PostMapping(value = "/salvar")
     @ResponseBody
-    public ResponseEntity<String> salvarInstituicao(@RequestBody DadosInstituicaoRequest dadosInstituicao ) {
+    public ResponseEntity<String> salvarInstituicao(@RequestBody NewDadosInstituicaoRequest dadosInstituicao ) {
         logger.info(LocalDate.now().toString());
         try {
-            instituicaoService.adicionarInstituicao( dadosInstituicao );
+            instituicaoService.adicionarInstituicaoNew( dadosInstituicao );
             return ResponseEntity.ok().build();
         } catch ( Exception e ) {
             logger.error(e.getMessage());
