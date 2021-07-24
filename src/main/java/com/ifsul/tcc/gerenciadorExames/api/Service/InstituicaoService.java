@@ -49,27 +49,21 @@ public class InstituicaoService {
     private ObjectMapper objectMapper;
 
     @Transactional( rollbackFor = Exception.class )
-    public Instituicao adicionarInstituicao(DadosInstituicaoRequest dadosInstituicao) throws Exception {
-        String email = getEmail();
-        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
-        if(usuario.isPresent()){
+    public Instituicao adicionarInstituicao(DadosInstituicaoRequest dadosInstituicao, Usuario usuario) throws Exception {
+        String email = usuario.getEmail();
+        EnderecoDTO enderecoDTO = dadosInstituicao.getEnderecoDTO();
+        enderecoDTO.setFlgEnderecoDoUsuario(Boolean.FALSE);
+        ContatoDTO contatoDTO = dadosInstituicao.getContatoDTO();
+        contatoDTO.setFlgContatoUsuario(Boolean.FALSE);
+        EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
+        ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
 
-            EnderecoDTO enderecoDTO = dadosInstituicao.getEnderecoDTO();
-            enderecoDTO.setFlgEnderecoDoUsuario(Boolean.FALSE);
-            ContatoDTO contatoDTO = dadosInstituicao.getContatoDTO();
-            contatoDTO.setFlgContatoUsuario(Boolean.FALSE);
-            EnderecoDTO newEndereco = enderecoService.salvar(enderecoDTO, email);
-            ContatoDTO newContato = contatoService.salvar(contatoDTO, email);
+        InstituicaoDTO instituicaoDTO = new InstituicaoDTO();
+        instituicaoDTO.setNome(dadosInstituicao.getNome());
+        instituicaoDTO.setIdContato(newContato.getId());
+        instituicaoDTO.setIdLocalidade(newEndereco.getId());
 
-            InstituicaoDTO instituicaoDTO = new InstituicaoDTO();
-            instituicaoDTO.setNome(dadosInstituicao.getNome());
-            instituicaoDTO.setIdContato(newContato.getId());
-            instituicaoDTO.setIdLocalidade(newEndereco.getId());
-
-            return salvar(instituicaoDTO);
-        } else {
-            throw new Exception();
-        }
+        return salvar(instituicaoDTO);
     }
 
     @Transactional( rollbackFor = Exception.class )

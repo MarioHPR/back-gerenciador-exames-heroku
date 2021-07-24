@@ -133,13 +133,12 @@ public class ExameService {
         Optional<TipoExame> tipoExame = tipoExameRepository.findByUsuarioAndNomeExame(usuario.get(), dadosExameRequest.getTipoExame());
         Instituicao instituicao;
 
-        if(instituicaoOptional.isPresent()) {
-            instituicao = instituicaoOptional.get();
-        } else {
-            instituicao = instituicaoService.adicionarInstituicao(dadosExameRequest.getDadosInstituicao());
-        }
-
         if( usuario.isPresent() && tipoExame.isPresent() ) {
+            if(instituicaoOptional.isPresent()) {
+                instituicao = instituicaoOptional.get();
+            } else {
+                instituicao = instituicaoService.adicionarInstituicao(dadosExameRequest.getDadosInstituicao(), usuario.get());
+            }
             exame.get().setDataExame(dadosExameRequest.getDataExame());
             exame.get().setTipoExame(tipoExame.get());
             exame.get().setInstituicao(instituicao);

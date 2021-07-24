@@ -1,6 +1,7 @@
 package com.ifsul.tcc.gerenciadorExames.api.Service;
 
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosConsultaRequest;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.NewDadosConsultaRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosConsultaResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.ConsultaDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Entity.Consulta;
@@ -9,6 +10,7 @@ import com.ifsul.tcc.gerenciadorExames.api.Entity.Usuario;
 import com.ifsul.tcc.gerenciadorExames.api.Repository.ConsultaRepository;
 import com.ifsul.tcc.gerenciadorExames.api.Repository.InstituicaoRepository;
 import com.ifsul.tcc.gerenciadorExames.api.Repository.UsuarioRepository;
+import com.ifsul.tcc.gerenciadorExames.api.Service.mapper.ConsultaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,23 +41,42 @@ public class ConsultaService {
     @Autowired
     private ContatoService contatoService;
 
+//    @Transactional( rollbackFor = Exception.class )
+//    public DadosConsultaRequest salvar(DadosConsultaRequest dadosConsulta) throws Exception {
+//        String email = getEmail();
+//        Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
+//        Optional<Instituicao> instituicaoOptional = instituicaoRepository.findById(dadosConsulta.getDadosInstituicao().getId());
+//        Instituicao instituicao;
+//
+//        if(instituicaoOptional.isPresent()) {
+//            instituicao = instituicaoOptional.get();
+//        } else {
+//            instituicao = instituicaoService.adicionarInstituicao(dadosConsulta.getDadosInstituicao());
+//        }
+//
+//        if( usuario.isPresent() ){
+//            Consulta consulta = new Consulta(dadosConsulta);
+//            consulta.setInstituicao( instituicao );
+//            consulta.setUsuario( usuario.get() );
+//            Consulta consultaPersistida = consultaRepository.save( consulta );
+//            return  new DadosConsultaRequest(consultaPersistida);
+//        }
+//        throw new Exception();
+//    }
+
     @Transactional( rollbackFor = Exception.class )
-    public DadosConsultaRequest salvar(DadosConsultaRequest dadosConsulta) throws Exception {
+    public DadosConsultaRequest salvar(NewDadosConsultaRequest dadosConsulta) throws Exception {
         String email = getEmail();
-        Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
-        Optional<Instituicao> instituicaoOptional = instituicaoRepository.findById(dadosConsulta.getDadosInstituicao().getId());
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+        Optional<Instituicao> instituicaoOptional = instituicaoRepository.findById(dadosConsulta.getIdInstituicao());
         Instituicao instituicao;
-
-        if(instituicaoOptional.isPresent()) {
-            instituicao = instituicaoOptional.get();
-        } else {
-            instituicao = instituicaoService.adicionarInstituicao(dadosConsulta.getDadosInstituicao());
-        }
-
         if( usuario.isPresent() ){
-            Consulta consulta = new Consulta(dadosConsulta);
-            consulta.setInstituicao( instituicao );
-            consulta.setUsuario( usuario.get() );
+            if(instituicaoOptional.isPresent()) {
+                instituicao = instituicaoOptional.get();
+            } else {
+                instituicao = instituicaoService.adicionarInstituicao(dadosConsulta.buscarDadosInstituicao(), usuario.get());
+            }
+            Consulta consulta = ConsultaMapper.createEntity(dadosConsulta, instituicao, usuario.get());
             Consulta consultaPersistida = consultaRepository.save( consulta );
             return  new DadosConsultaRequest(consultaPersistida);
         }
@@ -80,24 +101,43 @@ public class ConsultaService {
         throw new Exception();
     }
 
+//    @Transactional( rollbackFor = Exception.class )
+//    public DadosConsultaResponse editarConsulta( DadosConsultaRequest dadosConsulta, Integer id) throws Exception {
+//        String email = getEmail();
+//        Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
+//        Optional<Instituicao> instituicaoOptional = instituicaoRepository.findById( dadosConsulta.getDadosInstituicao().getId() );
+//
+//        Instituicao instituicao;
+//
+//        if(usuario.isPresent()) {
+//            if(instituicaoOptional.isPresent()) {
+//                instituicao = instituicaoOptional.get();
+//            } else {
+//                instituicao = instituicaoService.adicionarInstituicao(dadosConsulta.getDadosInstituicao(), usuario.get());
+//            }
+//            Consulta consulta = new Consulta(dadosConsulta);
+//            consulta.setUsuario( usuario.get() );
+//            consulta.setInstituicao( instituicao );
+//            consulta.setId(id);
+//            return new DadosConsultaResponse(consultaRepository.save(consulta));
+//        }
+//        throw new Exception();
+//    }
     @Transactional( rollbackFor = Exception.class )
-    public DadosConsultaResponse editarConsulta( DadosConsultaRequest dadosConsulta, Integer id) throws Exception {
+    public DadosConsultaResponse editarConsulta( NewDadosConsultaRequest dadosConsulta, Integer id) throws Exception {
         String email = getEmail();
         Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
-        Optional<Instituicao> instituicaoOptional = instituicaoRepository.findById( dadosConsulta.getDadosInstituicao().getId() );
+        Optional<Instituicao> instituicaoOptional = instituicaoRepository.findById(dadosConsulta.getIdInstituicao());
 
         Instituicao instituicao;
 
-        if(instituicaoOptional.isPresent()) {
-            instituicao = instituicaoOptional.get();
-        } else {
-            instituicao = instituicaoService.adicionarInstituicao(dadosConsulta.getDadosInstituicao());
-        }
-
         if(usuario.isPresent()) {
-            Consulta consulta = new Consulta(dadosConsulta);
-            consulta.setUsuario( usuario.get() );
-            consulta.setInstituicao( instituicao );
+            if(instituicaoOptional.isPresent()) {
+                instituicao = instituicaoOptional.get();
+            } else {
+                instituicao = instituicaoService.adicionarInstituicao(dadosConsulta.buscarDadosInstituicao(), usuario.get());
+            }
+            Consulta consulta = ConsultaMapper.createEntity(dadosConsulta, instituicao, usuario.get());
             consulta.setId(id);
             return new DadosConsultaResponse(consultaRepository.save(consulta));
         }

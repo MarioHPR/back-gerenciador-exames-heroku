@@ -2,6 +2,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Controller;
 
 import com.ifsul.tcc.gerenciadorExames.api.ApiApplication;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosConsultaRequest;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.NewDadosConsultaRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosConsultaResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.ConsultaDTO;
 import com.ifsul.tcc.gerenciadorExames.api.Service.ConsultaService;
@@ -24,9 +25,22 @@ public class ConsultaController {
 
     private Logger logger = LoggerFactory.getLogger(ApiApplication.class);
 
+//    @PostMapping(value = "/salvar/")
+//    @ResponseBody
+//    public ResponseEntity<String> salvarConsulta( @RequestBody DadosConsultaRequest dadosConsulta ) {
+//        logger.info(LocalDate.now().toString());
+//        try {
+//            consultaService.salvar(dadosConsulta);
+//            return ResponseEntity.ok().build();
+//        } catch ( Exception e ) {
+//            logger.error(e.getMessage());
+//            return ResponseEntity.badRequest().build();
+//        }
+//    }
+
     @PostMapping(value = "/salvar/")
     @ResponseBody
-    public ResponseEntity<String> salvarConsulta( @RequestBody DadosConsultaRequest dadosConsulta ) {
+    public ResponseEntity<String> salvarConsulta( @RequestBody NewDadosConsultaRequest dadosConsulta ) {
         logger.info(LocalDate.now().toString());
         try {
             consultaService.salvar(dadosConsulta);
@@ -61,9 +75,15 @@ public class ConsultaController {
         }
     }
 
+//    @PutMapping(value = "/editar/{id}")
+//    @ResponseBody
+//    public ResponseEntity<DadosConsultaResponse> editar(@PathVariable Integer id, @RequestBody DadosConsultaRequest dadosConsulta) throws Exception {
+//        return ResponseEntity.ok().body(consultaService.editarConsulta(dadosConsulta,id));
+//    }
+
     @PutMapping(value = "/editar/{id}")
     @ResponseBody
-    public ResponseEntity<DadosConsultaResponse> editar(@PathVariable Integer id, @RequestBody DadosConsultaRequest dadosConsulta) throws Exception {
+    public ResponseEntity<DadosConsultaResponse> editar(@PathVariable Integer id, @RequestBody NewDadosConsultaRequest dadosConsulta) throws Exception {
         return ResponseEntity.ok().body(consultaService.editarConsulta(dadosConsulta,id));
     }
 

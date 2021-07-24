@@ -70,7 +70,7 @@ public class TipoExameService {
         if(instituicaoOptional.isPresent()) {
            instituicao = instituicaoOptional.get();
         } else {
-            instituicao = instituicaoService.adicionarInstituicao(dadosTipoExameRequest.getDadosInstituicao());
+            instituicao = instituicaoService.adicionarInstituicao(dadosTipoExameRequest.getDadosInstituicao(), usuario.get());
         }
 
         Optional<TipoExame> tipoExameOptional = tipoExameRepository.findByUsuarioAndNomeExame(usuario.get(), dadosTipoExameRequest.getNomeExame());
