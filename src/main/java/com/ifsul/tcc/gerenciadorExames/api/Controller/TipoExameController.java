@@ -2,6 +2,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Controller;
 
 import com.ifsul.tcc.gerenciadorExames.api.ApiApplication;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosTipoExameRequest;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.ResumoExameRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosTipoExameResponse;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.TipoExameResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.TipoExameDTO;
@@ -25,12 +26,25 @@ public class TipoExameController {
 
     private Logger logger = LoggerFactory.getLogger(ApiApplication.class);
 
+//    @PostMapping(value = "/salvar-resumo/")
+//    @ResponseBody
+//    public ResponseEntity<String> salvarTipoExameResumo(@RequestBody DadosTipoExameRequest tipoExameDTO ) {
+//        logger.info(LocalDate.now().toString());
+//        try {
+//            tipoExameService.salvar(tipoExameDTO);
+//            return ResponseEntity.ok().build();
+//        } catch ( Exception e ) {
+//            logger.error(e.getMessage());
+//            return ResponseEntity.badRequest().build();
+//        }
+//    }
+
     @PostMapping(value = "/salvar-resumo/")
     @ResponseBody
-    public ResponseEntity<String> salvarTipoExameResumo(@RequestBody DadosTipoExameRequest tipoExameDTO ) {
+    public ResponseEntity<String> salvarTipoExameResumo(@RequestBody ResumoExameRequest request ) {
         logger.info(LocalDate.now().toString());
         try {
-            tipoExameService.salvar(tipoExameDTO);
+            tipoExameService.salvar(request);
             return ResponseEntity.ok().build();
         } catch ( Exception e ) {
             logger.error(e.getMessage());

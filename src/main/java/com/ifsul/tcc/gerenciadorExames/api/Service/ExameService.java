@@ -3,6 +3,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosExameEditRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosExameRequest;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.ResumoExameRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.ExameResponse;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.ContatoDTO;
 import com.ifsul.tcc.gerenciadorExames.api.DTO.EnderecoDTO;
@@ -122,63 +123,120 @@ public class ExameService {
         throw new Exception("Não há dados para este usuário!");
     }
 
-    @Transactional( rollbackFor = Exception.class )
-    public ExameResponse editarExame(DadosExameEditRequest dadosExameRequest, Integer id) throws Exception {
-        Optional<Exame> exame = exameRepository.findById(id);
-        if( !exame.isPresent() )
-            throw new Exception("Exame não encontrado!");
-        String  email = getEmail();
-        Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
-        Optional<Instituicao> instituicaoOptional = instituicaoRepository.findById( dadosExameRequest.getDadosInstituicao().getId() );
-        Optional<TipoExame> tipoExame = tipoExameRepository.findByUsuarioAndNomeExame(usuario.get(), dadosExameRequest.getTipoExame());
-        Instituicao instituicao;
+//    @Transactional( rollbackFor = Exception.class )
+//    public ExameResponse editarExame(DadosExameEditRequest request, Integer id) throws Exception {
+//        Optional<Exame> exame = exameRepository.findById(id);
+//        if( !exame.isPresent() )
+//            throw new Exception("Exame não encontrado!");
+//        String  email = getEmail();
+//        Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
+//        Optional<Instituicao> instituicaoOptional = instituicaoRepository.findById( request.getDadosInstituicao().getId() );
+//        Optional<TipoExame> tipoExame = tipoExameRepository.findByUsuarioAndNomeExame(usuario.get(), request.getTipoExame());
+//        Instituicao instituicao;
+//
+//        if( usuario.isPresent() && tipoExame.isPresent() ) {
+//            if(instituicaoOptional.isPresent()) {
+//                instituicao = instituicaoOptional.get();
+//            } else {
+//                instituicao = instituicaoService.adicionarInstituicao(request.getDadosInstituicao(), usuario.get());
+//            }
+//            exame.get().setDataExame(request.getDataExame());
+//            exame.get().setTipoExame(tipoExame.get());
+//            exame.get().setInstituicao(instituicao);
+//            exame.get().setIdArquivo(request.getIdArquivo());
+//            for (int i = 0 ; i < request.getParametros().size() ; i++ ) {
+//                if(request.getParametros().get(i).getCampo() != "") {
+//                    Integer idCampo = request.getParametros().get(i).getIdItemCampoExame();
+//                    String campo = request.getParametros().get(i).getCampo();
+//                    Optional<ItemCampoExame> itemCampo = itemCampoExameRepository.findById(idCampo);
+//
+//                    ItemCampoExame itemEntity;
+//                    if (itemCampo.isPresent()) {
+//                        itemEntity = itemCampo.get();
+//                        itemEntity.setCampo(campo);
+//                        itemCampoExameRepository.save(itemEntity);
+//                    } else {
+//                        ItemCampoExame newItem = new ItemCampoExame(campo);
+//                        newItem.setExame(exame.get());
+//                        newItem.setTipoExame(tipoExame.get());
+//                        itemEntity = itemCampoExameRepository.save(newItem);
+//                    }
+//
+//                    Integer idValor = request.getParametros().get(i).getIdItemValorExame();
+//                    String valor = request.getParametros().get(i).getValor();
+//                    Optional<ItemValorExame> item = itemValorExameRepository.findById(idValor);
+//                    if (item.isPresent() && valor != item.get().getValor()) {
+//                        item.get().setValor(valor);
+//                        itemValorExameRepository.save(item.get());
+//                    } else {
+//                        ItemValorExame itemValorExame = new ItemValorExame(valor);
+//                        itemValorExame.setExame(exame.get());
+//                        itemValorExame.setItemCampoExame(itemEntity);
+//                        itemValorExameRepository.save(itemValorExame);
+//                    }
+//                }
+//            }
+//            return new ExameResponse(exameRepository.save(exame.get()));
+//        }
+//        throw new Exception("Houve algum problema, instituição ou tipo de exame não encontrado!");
+//    }
+@Transactional( rollbackFor = Exception.class )
+public ExameResponse editarExame(ResumoExameRequest request, Integer id) throws Exception {
+    Optional<Exame> exame = exameRepository.findById(id);
+    if( !exame.isPresent() )
+        throw new Exception("Exame não encontrado!");
+    String  email = getEmail();
+    Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
+    Optional<Instituicao> instituicaoOptional = instituicaoRepository.findById( request.getIdInstituicao() );
+    Optional<TipoExame> tipoExame = tipoExameRepository.findByUsuarioAndNomeExame(usuario.get(), request.getNomeExame());
+    Instituicao instituicao;
 
-        if( usuario.isPresent() && tipoExame.isPresent() ) {
-            if(instituicaoOptional.isPresent()) {
-                instituicao = instituicaoOptional.get();
-            } else {
-                instituicao = instituicaoService.adicionarInstituicao(dadosExameRequest.getDadosInstituicao(), usuario.get());
-            }
-            exame.get().setDataExame(dadosExameRequest.getDataExame());
-            exame.get().setTipoExame(tipoExame.get());
-            exame.get().setInstituicao(instituicao);
-            exame.get().setIdArquivo(dadosExameRequest.getIdArquivo());
-            for (int i = 0 ; i < dadosExameRequest.getParametros().size() ; i++ ) {
-                if(dadosExameRequest.getParametros().get(i).getCampo() != "") {
-                    Integer idCampo = dadosExameRequest.getParametros().get(i).getIdItemCampoExame();
-                    String campo = dadosExameRequest.getParametros().get(i).getCampo();
-                    Optional<ItemCampoExame> itemCampo = itemCampoExameRepository.findById(idCampo);
+    if( usuario.isPresent() && tipoExame.isPresent() ) {
+        if(instituicaoOptional.isPresent()) {
+            instituicao = instituicaoOptional.get();
+        } else {
+            instituicao = instituicaoService.adicionarInstituicao(request.buscarDadosInstituicao(), usuario.get());
+        }
+        exame.get().setDataExame(request.getDataExame());
+        exame.get().setTipoExame(tipoExame.get());
+        exame.get().setInstituicao(instituicao);
+        exame.get().setIdArquivo(request.getIdArquivo());
+        for (int i = 0 ; i < request.getParametros().size() ; i++ ) {
+            if(request.getParametros().get(i).getCampo() != "") {
+                Integer idCampo = request.getParametros().get(i).getIdItemCampoExame();
+                String campo = request.getParametros().get(i).getCampo();
+                Optional<ItemCampoExame> itemCampo = itemCampoExameRepository.findById(idCampo);
 
-                    ItemCampoExame itemEntity;
-                    if (itemCampo.isPresent()) {
-                        itemEntity = itemCampo.get();
-                        itemEntity.setCampo(campo);
-                        itemCampoExameRepository.save(itemEntity);
-                    } else {
-                        ItemCampoExame newItem = new ItemCampoExame(campo);
-                        newItem.setExame(exame.get());
-                        newItem.setTipoExame(tipoExame.get());
-                        itemEntity = itemCampoExameRepository.save(newItem);
-                    }
+                ItemCampoExame itemEntity;
+                if (itemCampo.isPresent()) {
+                    itemEntity = itemCampo.get();
+                    itemEntity.setCampo(campo);
+                    itemCampoExameRepository.save(itemEntity);
+                } else {
+                    ItemCampoExame newItem = new ItemCampoExame(campo);
+                    newItem.setExame(exame.get());
+                    newItem.setTipoExame(tipoExame.get());
+                    itemEntity = itemCampoExameRepository.save(newItem);
+                }
 
-                    Integer idValor = dadosExameRequest.getParametros().get(i).getIdItemValorExame();
-                    String valor = dadosExameRequest.getParametros().get(i).getValor();
-                    Optional<ItemValorExame> item = itemValorExameRepository.findById(idValor);
-                    if (item.isPresent() && valor != item.get().getValor()) {
-                        item.get().setValor(valor);
-                        itemValorExameRepository.save(item.get());
-                    } else {
-                        ItemValorExame itemValorExame = new ItemValorExame(valor);
-                        itemValorExame.setExame(exame.get());
-                        itemValorExame.setItemCampoExame(itemEntity);
-                        itemValorExameRepository.save(itemValorExame);
-                    }
+                Integer idValor = request.getParametros().get(i).getIdItemValorExame();
+                String valor = request.getParametros().get(i).getValor();
+                Optional<ItemValorExame> item = itemValorExameRepository.findById(idValor);
+                if (item.isPresent() && valor != item.get().getValor()) {
+                    item.get().setValor(valor);
+                    itemValorExameRepository.save(item.get());
+                } else {
+                    ItemValorExame itemValorExame = new ItemValorExame(valor);
+                    itemValorExame.setExame(exame.get());
+                    itemValorExame.setItemCampoExame(itemEntity);
+                    itemValorExameRepository.save(itemValorExame);
                 }
             }
-            return new ExameResponse(exameRepository.save(exame.get()));
         }
-        throw new Exception("Houve algum problema, instituição ou tipo de exame não encontrado!");
+        return new ExameResponse(exameRepository.save(exame.get()));
     }
+    throw new Exception("Houve algum problema, instituição ou tipo de exame não encontrado!");
+}
 
     @Transactional( rollbackFor = Exception.class )
     public String removerExame(int idExame) throws Exception {

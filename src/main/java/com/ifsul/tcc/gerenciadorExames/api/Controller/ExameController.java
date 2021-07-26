@@ -2,6 +2,7 @@ package com.ifsul.tcc.gerenciadorExames.api.Controller;
 
 import com.ifsul.tcc.gerenciadorExames.api.ApiApplication;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosExameEditRequest;
+import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.ResumoExameRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.ExameResponse;
 import com.ifsul.tcc.gerenciadorExames.api.Service.ExameService;
 import org.slf4j.Logger;
@@ -47,12 +48,23 @@ public class ExameController {
         }
     }
 
+//    @PutMapping(value = "/editar/{id}")
+//    @ResponseBody
+//    public ResponseEntity<ExameResponse> editar(@PathVariable Integer id, @RequestBody DadosExameEditRequest dadosExameRequest) throws Exception {
+//        logger.info(LocalDate.now().toString());
+//        try {
+//            return ResponseEntity.ok().body(exameService.editarExame(dadosExameRequest, id));
+//        } catch (Exception e) {
+//            logger.error(e.getMessage());
+//            return ResponseEntity.badRequest().build();
+//        }
+//    }
     @PutMapping(value = "/editar/{id}")
     @ResponseBody
-    public ResponseEntity<ExameResponse> editar(@PathVariable Integer id, @RequestBody DadosExameEditRequest dadosExameRequest) throws Exception {
+    public ResponseEntity<ExameResponse> editar(@PathVariable Integer id, @RequestBody ResumoExameRequest request) throws Exception {
         logger.info(LocalDate.now().toString());
         try {
-            return ResponseEntity.ok().body(exameService.editarExame(dadosExameRequest, id));
+            return ResponseEntity.ok().body(exameService.editarExame(request, id));
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResponseEntity.badRequest().build();
