@@ -1,7 +1,6 @@
 package com.ifsul.tcc.gerenciadorExames.api.Controller;
 
 import com.ifsul.tcc.gerenciadorExames.api.ApiApplication;
-import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosTipoExameRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.ResumoExameRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosTipoExameResponse;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.TipoExameResponse;
@@ -26,18 +25,18 @@ public class TipoExameController {
 
     private Logger logger = LoggerFactory.getLogger(ApiApplication.class);
 
-//    @PostMapping(value = "/salvar-resumo/")
-//    @ResponseBody
-//    public ResponseEntity<String> salvarTipoExameResumo(@RequestBody DadosTipoExameRequest tipoExameDTO ) {
-//        logger.info(LocalDate.now().toString());
-//        try {
-//            tipoExameService.salvar(tipoExameDTO);
-//            return ResponseEntity.ok().build();
-//        } catch ( Exception e ) {
-//            logger.error(e.getMessage());
-//            return ResponseEntity.badRequest().build();
-//        }
-//    }
+    @PostMapping(value = "/")
+    @ResponseBody
+    public ResponseEntity<String> salvarTipoExame(@RequestBody String nomeExame ) {
+        logger.info(LocalDate.now().toString());
+        try {
+            tipoExameService.salvar(nomeExame);
+            return ResponseEntity.ok().build();
+        } catch ( Exception e ) {
+            logger.error(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
     @PostMapping(value = "/salvar-resumo/")
     @ResponseBody

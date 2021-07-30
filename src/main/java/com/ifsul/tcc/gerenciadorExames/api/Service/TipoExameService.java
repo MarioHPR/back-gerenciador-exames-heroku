@@ -1,7 +1,6 @@
 package com.ifsul.tcc.gerenciadorExames.api.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.DadosTipoExameRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Request.ResumoExameRequest;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.DadosTipoExameResponse;
 import com.ifsul.tcc.gerenciadorExames.api.Controller.Response.TipoExameResponse;
@@ -56,65 +55,19 @@ public class TipoExameService {
         return instituicaoRepository.findById( id );
     }
 
-//    @Transactional( rollbackFor = Exception.class )
-//    public TipoExameDTO salvar(DadosTipoExameRequest dadosTipoExameRequest) throws Exception {
-//        String email = getEmail();
-//        Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
-//
-//        if(!usuario.isPresent()) {
-//            throw new Exception();
-//        }
-//
-//        Optional<Instituicao> instituicaoOptional = encontrarinstituicao(dadosTipoExameRequest.getDadosInstituicao().getId());
-//        Instituicao instituicao;
-//
-//        if(instituicaoOptional.isPresent()) {
-//           instituicao = instituicaoOptional.get();
-//        } else {
-//            instituicao = instituicaoService.adicionarInstituicao(dadosTipoExameRequest.getDadosInstituicao(), usuario.get());
-//        }
-//
-//        Optional<TipoExame> tipoExameOptional = tipoExameRepository.findByUsuarioAndNomeExame(usuario.get(), dadosTipoExameRequest.getNomeExame());
-//        TipoExame tipoExamePersistida;
-//        if(tipoExameOptional.isPresent()){
-//            tipoExamePersistida = tipoExameOptional.get();
-//        } else {
-//            TipoExame tipoExame;
-//            tipoExame = new TipoExame(dadosTipoExameRequest.getNomeExame());
-//            tipoExame.setUsuario( usuario.get() );
-//            tipoExamePersistida = tipoExameRepository.save( tipoExame );
-//        }
-//
-//        Exame exame = objectMapper.convertValue(dadosTipoExameRequest, Exame.class);
-//        exame.setUsuario( usuario.get() );
-//        exame.setInstituicao(instituicao);
-//        exame.setTipoExame(tipoExamePersistida);
-//        exameRepository.save( exame );
-//        if( dadosTipoExameRequest.getCampo().size() > 0) {
-//            int tamanho = dadosTipoExameRequest.getCampo().size();
-//            for( int i = 0 ; i < tamanho ; i++ ) {
-//                String campo = dadosTipoExameRequest.getCampo().get(i);
-//                String valor = dadosTipoExameRequest.getValor().get(i);
-//
-//                Optional<ItemCampoExame> item = itemCampoExameRepository.findByCampoAndTipoExame(campo, exame.getTipoExame());
-//                ItemCampoExame itemEntity;
-//                if(item.isPresent()) {
-//                    itemEntity = item.get();
-//                } else {
-//                    ItemCampoExame newItem = new ItemCampoExame(campo);
-//                    newItem.setExame(exame);
-//                    newItem.setTipoExame(tipoExamePersistida);
-//                    itemEntity = itemCampoExameRepository.save(newItem);
-//                }
-//
-//                ItemValorExame itemValorExame = new ItemValorExame(valor);
-//                itemValorExame.setExame(exame);
-//                itemValorExame.setItemCampoExame(itemEntity);
-//                itemValorExameRepository.save(itemValorExame);
-//            }
-//        }
-//        return  new TipoExameDTO(tipoExamePersistida);
-//    }
+    @Transactional( rollbackFor = Exception.class )
+    public TipoExameDTO salvar( String nomeExame) throws Exception {
+        String email = getEmail();
+        Optional<Usuario> usuario = usuarioRepository.findByEmail( email );
+        if(!usuario.isPresent()) {
+            throw new Exception();
+        }
+        TipoExame tipoExame = new TipoExame(nomeExame);
+        tipoExame.setUsuario( usuario.get() );
+        TipoExame newTipo = tipoExameRepository.save( tipoExame );
+        return new TipoExameDTO(newTipo);
+    }
+
 
     @Transactional( rollbackFor = Exception.class )
     public TipoExameDTO salvar( ResumoExameRequest request) throws Exception {
